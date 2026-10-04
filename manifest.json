@@ -1,0 +1,32 @@
+{
+  "name": "青春音樂時光機",
+  "short_name": "音樂時光機",
+  "description": "青春沒有消失，只是有些歌很久沒播放了。1970~1990年代經典音樂私人回憶錄。",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#23412F",
+  "background_color": "#FBF6EC",
+  "categories": ["music", "lifestyle"],
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

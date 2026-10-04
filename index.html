@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>青春音樂時光機 | 1970s~1990s 經典音樂回憶</title>
+  <meta name="description" content="青春沒有消失，只是有些歌很久沒播放了。1970~1990年代經典音樂私人回憶錄。">
+
+  <!-- PWA Manifest & Web App Settings -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#23412F">
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <!-- Apple iOS PWA 設定 -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="音樂時光機">
+  
+  <!-- Apple Touch Icons & Favicons -->
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon-180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="icons/favicon.png">
+
+  <!-- Google Fonts: 典雅襯線與無襯線字體 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@400;600;700;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- 桌面/平板最佳化切換按鈕 (便於大螢幕檢視) -->
+  <button id="desktopViewToggle" class="desktop-view-toggle" title="切換檢視比例">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <rect width="20" height="14" x="2" y="5" rx="2"/><path d="M12 19v3"/><path d="M8 22h8"/>
+    </svg>
+    寬螢幕全覽
+  </button>
+
+  <!-- 外層居中模擬手機視窗 -->
+  <div class="app-viewport-wrapper">
+    <div class="mobile-device-container">
+      
+      <!-- 頂部復古淡金微光條 -->
+      <div class="top-golden-accent"></div>
+
+      <!-- 核心內容動態抽換容器 -->
+      <main id="mainContent" class="main-content">
+        <!-- 透過 js/app.js 動態渲染 -->
+      </main>
+
+      <!-- 手機優先：底部固定導覽列 -->
+      <nav id="bottomNav" class="bottom-navigation">
+        <button class="nav-item active" data-tab="time_machine" title="時光機首頁">
+          <div class="nav-icon-box">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+              <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+          </div>
+          <span class="nav-label">時光機</span>
+        </button>
+
+        <button class="nav-item" data-tab="explore" title="找歌曲與歌手">
+          <div class="nav-icon-box">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+            </svg>
+          </div>
+          <span class="nav-label">找歌曲</span>
+        </button>
+
+        <button class="nav-item" data-tab="favorites" title="我的青春歌單">
+          <div class="nav-icon-box">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+            </svg>
+            <span id="favCountBadge" class="nav-badge-count" style="display: none;">0</span>
+          </div>
+          <span class="nav-label">我的最愛</span>
+        </button>
+
+        <button class="nav-item" data-tab="memories" title="人生音樂日記">
+          <div class="nav-icon-box">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/>
+              <path d="M6 6h10"/><path d="M6 10h10"/>
+            </svg>
+            <span id="memoryCountBadge" class="nav-badge-count" style="display: none;">0</span>
+          </div>
+          <span class="nav-label">我的回憶</span>
+        </button>
+      </nav>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       彈出視窗 1：去聽這首歌（導向合法正版音樂平台）
+       嚴格遵守版權原則：不自行串流或下載任何音訊
+       ======================================================================== -->
+  <div id="listenModal" class="modal-overlay">
+    <div class="bottom-sheet">
+      <div class="sheet-handle"></div>
+
+      <div class="sheet-header">
+        <h3 id="listenModalTitle" class="sheet-title">《歌曲名稱》</h3>
+        <p id="listenModalArtist" class="sheet-subtitle">歌手 ・ 年代</p>
+      </div>
+
+      <div class="legal-notice-box">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+        </svg>
+        <span>青春音樂時光機不儲存或串流音訊。為支持正版音樂人，將直接為您開啟合法授權之官方平台：</span>
+      </div>
+
+      <div class="platform-links-group">
+        <!-- YouTube 官方平台 -->
+        <a id="linkYoutube" class="platform-link-btn youtube" href="#" target="_blank" rel="noopener">
+          <div class="platform-link-left">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#FF0000">
+              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+            </svg>
+            <span>到 YouTube 聆聽</span>
+          </div>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+        </a>
+
+        <!-- Spotify 官方平台 -->
+        <a id="linkSpotify" class="platform-link-btn spotify" href="#" target="_blank" rel="noopener">
+          <div class="platform-link-left">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#1DB954">
+              <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+            </svg>
+            <span>到 Spotify 聆聽</span>
+          </div>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+        </a>
+
+        <!-- Apple Music 官方平台 -->
+        <a id="linkAppleMusic" class="platform-link-btn applemusic" href="#" target="_blank" rel="noopener">
+          <div class="platform-link-left">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#FC3C44">
+              <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.62-.75 1.04-1.8 0-2.85-.9.04-2 .6-2.65 1.35-.58.66-1.09 1.73-.95 2.76 1.01.08 2.06-.51 2.68-1.26z"/>
+            </svg>
+            <span>到 Apple Music 聆聽</span>
+          </div>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+        </a>
+      </div>
+
+      <button class="sheet-close-btn close-modal-trigger">關閉</button>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       彈出視窗 2：我的音樂回憶筆記（這首歌讓我想到……）
+       讓 App 成為一本慢慢累積的人生音樂日記
+       ======================================================================== -->
+  <div id="memoryModal" class="modal-overlay">
+    <div class="bottom-sheet">
+      <div class="sheet-handle"></div>
+
+      <div class="sheet-header">
+        <h3 id="memoryModalTitle" class="sheet-title">《歌曲名稱》</h3>
+        <p id="memoryModalArtist" class="sheet-subtitle">這首歌讓我想到……</p>
+      </div>
+
+      <div class="memory-editor-form">
+        <!-- 靈感提示快捷膠囊 -->
+        <div class="quick-prompt-chips">
+          <span class="prompt-chip" data-prompt="第一次去英國時常常聽。">✈️ 第一次去英國時常常聽</span>
+          <span class="prompt-chip" data-prompt="以前開車時很喜歡這首。">🚗 以前開車時很喜歡這首</span>
+          <span class="prompt-chip" data-prompt="這是我和家人的回憶。">🏡 這是我和家人的回憶</span>
+          <span class="prompt-chip" data-prompt="學生時代每晚讀書時陪伴的旋律。">📖 學生時代讀書陪伴的旋律</span>
+          <span class="prompt-chip" data-prompt="那年夏天和朋友們在海邊的合唱。">🌊 那年夏天和朋友在海邊合唱</span>
+        </div>
+
+        <textarea id="memoryTextarea" 
+                  class="memory-textarea" 
+                  maxlength="500" 
+                  placeholder="寫下你的心情、那時遇見的人、或某個難忘的夏日午後…（文字將妥善保存在您的瀏覽器中）"></textarea>
+
+        <div class="memory-editor-footer">
+          <span id="charCount" class="char-counter">0 / 500</span>
+          <button id="btnSaveMemory" class="btn-save-memory">珍藏這段回憶</button>
+        </div>
+      </div>
+
+      <button class="sheet-close-btn close-modal-trigger" style="margin-top: 14px;">取消</button>
+    </div>
+  </div>
+
+  <!-- 吐司提示訊息 -->
+  <div id="toast" class="toast-container">
+    <div class="toast">
+      <span id="toastMessage">已珍藏至我的青春歌單</span>
+    </div>
+  </div>
+
+  <!-- 核心資料與邏輯 -->
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+
+  <!-- PWA Service Worker 註冊 -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then((reg) => {
+            console.log('✅ PWA Service Worker 註冊成功，範圍：', reg.scope);
+          })
+          .catch((err) => {
+            // 本機 file:// 協定瀏覽器預設不啟動 SW，部署至 HTTPS 伺服器後即自動啟用
+            console.log('PWA Service Worker 狀態：', err.message);
+          });
+      });
+    }
+  </script>
+</body>
+</html>
