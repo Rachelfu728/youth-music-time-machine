@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
@@ -28,7 +28,1490 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@400;600;700;900&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/style.css">
+  <style>
+/* ==========================================================================
+   青春音樂時光機 - 高級復古 × 現代數位
+   Color Palette:
+   - 奶油米白: #FBF6EC
+   - 墨綠/深綠: #23412F
+   - 淡金色: #C9A86A
+   - 酒紅: #8A2538
+   - 霧灰藍: #486175
+   ========================================================================== */
+
+:root {
+  --bg-creme: #FBF6EC;
+  --bg-creme-soft: #F6F0E4;
+  --bg-card: #FFFFFF;
+  --bg-card-subtle: #FAF7F0;
+  
+  --deep-green: #23412F;
+  --deep-green-light: #2D523C;
+  --deep-green-dark: #193022;
+  --deep-green-surface: rgba(35, 65, 47, 0.06);
+  
+  --pale-gold: #C9A86A;
+  --pale-gold-light: #DFC493;
+  --pale-gold-glow: rgba(201, 168, 106, 0.18);
+  --gold-border: rgba(201, 168, 106, 0.35);
+
+  --wine-red: #8A2538;
+  --wine-red-light: #A4354B;
+  --wine-red-soft: rgba(138, 37, 56, 0.1);
+
+  --slate-blue: #486175;
+  --slate-blue-soft: rgba(72, 97, 117, 0.12);
+
+  --text-primary: #1C2B22;
+  --text-secondary: #586B5F;
+  --text-tertiary: #84968C;
+  --text-gold: #AC8A4C;
+
+  --font-serif: "Noto Serif TC", "Songti TC", "Source Han Serif TC", "Georgia", serif;
+  --font-sans: "Noto Sans TC", -apple-system, BlinkMacSystemFont, "PingFang TC", "Microsoft JhengHei", sans-serif;
+  --font-display: "Cinzel", "Noto Serif TC", serif;
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 26px;
+  --radius-full: 9999px;
+
+  --shadow-sm: 0 2px 8px rgba(35, 65, 47, 0.04);
+  --shadow-card: 0 8px 24px rgba(35, 65, 47, 0.06), 0 1px 3px rgba(35, 65, 47, 0.03);
+  --shadow-hover: 0 12px 32px rgba(35, 65, 47, 0.12), 0 2px 6px rgba(35, 65, 47, 0.04);
+  --shadow-float: 0 16px 40px rgba(25, 48, 34, 0.18);
+
+  --nav-height: 68px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100%;
+  background-color: #EDE7DA;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 桌面預覽架構：手機置中模擬，可切換寬螢幕 */
+.app-viewport-wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0;
+  background: radial-gradient(circle at 50% 20%, #F5EFE3 0%, #E3DDD0 100%);
+}
+
+.mobile-device-container {
+  width: 100%;
+  max-width: 480px;
+  min-height: 100vh;
+  background-color: var(--bg-creme);
+  position: relative;
+  box-shadow: 0 0 60px rgba(35, 65, 47, 0.15);
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  transition: max-width 0.3s ease;
+}
+
+/* 寬螢幕切換模式 (便於電腦檢視時想看大螢幕) */
+body.expanded-desktop-mode .mobile-device-container {
+  max-width: 980px;
+}
+
+/* 手機螢幕時自適應滿版 */
+@media (max-width: 600px) {
+  .app-viewport-wrapper {
+    background: var(--bg-creme);
+  }
+  .mobile-device-container {
+    max-width: 100%;
+    box-shadow: none;
+  }
+}
+
+/* 頂部裝飾金邊細線 */
+.top-golden-accent {
+  height: 3px;
+  background: linear-gradient(90deg, transparent 0%, var(--pale-gold) 30%, #EAD5A5 50%, var(--pale-gold) 70%, transparent 100%);
+  width: 100%;
+}
+
+/* 桌面切換按鈕 */
+.desktop-view-toggle {
+  display: none;
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+  background: var(--deep-green);
+  color: var(--bg-creme);
+  border: 1px solid var(--pale-gold);
+  border-radius: var(--radius-full);
+  padding: 10px 18px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  box-shadow: var(--shadow-float);
+  cursor: pointer;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+@media (min-width: 992px) {
+  .desktop-view-toggle {
+    display: inline-flex;
+  }
+}
+.desktop-view-toggle:hover {
+  background: var(--deep-green-light);
+  transform: translateY(-2px);
+}
+
+/* 內容滾動區 */
+.main-content {
+  flex: 1;
+  padding: 16px 20px calc(var(--nav-height) + 36px) 20px;
+  overflow-y: auto;
+  position: relative;
+}
+
+/* 雜誌風格標頭 */
+.magazine-header {
+  text-align: center;
+  padding: 24px 8px 18px 8px;
+  position: relative;
+}
+
+.brand-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--deep-green-surface);
+  color: var(--deep-green);
+  border: 1px solid var(--gold-border);
+  padding: 4px 14px;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.brand-badge svg {
+  color: var(--pale-gold);
+}
+
+.app-title {
+  font-family: var(--font-serif);
+  font-size: 1.95rem;
+  font-weight: 700;
+  color: var(--deep-green);
+  letter-spacing: 2px;
+  line-height: 1.25;
+  margin-bottom: 12px;
+  text-shadow: 0 1px 1px rgba(201, 168, 106, 0.3);
+}
+
+.app-subtitle-box {
+  position: relative;
+  display: inline-block;
+  max-width: 320px;
+  margin: 0 auto;
+  padding: 8px 16px;
+}
+
+.app-subtitle-box::before, .app-subtitle-box::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 24px;
+  height: 1px;
+  background-color: var(--pale-gold);
+}
+.app-subtitle-box::before { left: -16px; }
+.app-subtitle-box::after { right: -16px; }
+
+.app-subtitle {
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-style: normal;
+}
+
+/* 典雅搜尋列 */
+.search-container {
+  margin: 18px 0 24px 0;
+  position: relative;
+}
+
+.search-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: var(--bg-card);
+  border: 1px solid rgba(201, 168, 106, 0.4);
+  border-radius: var(--radius-xl);
+  padding: 6px 14px 6px 16px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.25s ease;
+}
+
+.search-input-wrapper:focus-within {
+  border-color: var(--deep-green);
+  box-shadow: 0 0 0 3px var(--pale-gold-glow), var(--shadow-sm);
+  background: #FFF;
+}
+
+.search-icon {
+  color: var(--pale-gold);
+  flex-shrink: 0;
+  margin-right: 10px;
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  outline: none;
+  padding: 6px 0;
+}
+
+.search-input::placeholder {
+  color: #9AA79E;
+  font-size: 0.88rem;
+}
+
+.search-clear-btn {
+  background: none;
+  border: none;
+  color: #A0ADA4;
+  cursor: pointer;
+  padding: 4px;
+  display: none;
+  border-radius: var(--radius-full);
+}
+.search-clear-btn.visible {
+  display: inline-flex;
+}
+
+/* 區塊標題 */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin: 28px 0 14px 0;
+}
+
+.section-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-bullet {
+  width: 4px;
+  height: 18px;
+  background-color: var(--pale-gold);
+  border-radius: 2px;
+}
+
+.section-title {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--deep-green);
+  letter-spacing: 0.5px;
+}
+
+.section-desc {
+  font-size: 0.8rem;
+  color: var(--text-tertiary);
+  margin-top: 2px;
+}
+
+.section-link {
+  font-size: 0.82rem;
+  color: var(--pale-gold);
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+.section-link:hover {
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   年代時光按鈕 (三大大型按鈕)
+   ========================================================================== */
+.decades-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.decade-card {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--gold-border);
+  border-radius: var(--radius-lg);
+  padding: 16px 8px 14px 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.decade-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--pale-gold);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.decade-card:active, .decade-card.active {
+  transform: translateY(-3px);
+  border-color: var(--deep-green);
+  box-shadow: var(--shadow-hover);
+  background: #FFFDF9;
+}
+
+.decade-card.active::before {
+  opacity: 1;
+}
+
+.decade-year {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--deep-green);
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.decade-label {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.decade-badge {
+  font-size: 0.65rem;
+  margin-top: 6px;
+  padding: 2px 6px;
+  border-radius: var(--radius-full);
+  background: var(--deep-green-surface);
+  color: var(--text-tertiary);
+}
+
+/* 快速分類標籤 (華語經典 / 西洋經典 / 我的最愛) */
+.quick-filter-bar {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 4px 0 12px 0;
+  scrollbar-width: none;
+}
+.quick-filter-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.filter-pill {
+  flex: 1;
+  min-width: 95px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: var(--bg-card);
+  border: 1px solid rgba(201, 168, 106, 0.3);
+  padding: 10px 12px;
+  border-radius: var(--radius-full);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--deep-green);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  box-shadow: var(--shadow-sm);
+}
+
+.filter-pill:hover {
+  background: #FFFDF8;
+  border-color: var(--pale-gold);
+}
+
+.filter-pill.active {
+  background: var(--deep-green);
+  color: #FFF;
+  border-color: var(--deep-green);
+  box-shadow: 0 4px 12px rgba(35, 65, 47, 0.2);
+}
+
+.filter-pill.heart-pill {
+  color: var(--wine-red);
+}
+.filter-pill.heart-pill.active {
+  background: var(--wine-red);
+  color: #FFF;
+  border-color: var(--wine-red);
+}
+
+/* ==========================================================================
+   心情選歌 (六大情境選項)
+   ========================================================================== */
+.mood-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.mood-card {
+  background: var(--bg-card);
+  border: 1px solid rgba(201, 168, 106, 0.25);
+  border-radius: var(--radius-md);
+  padding: 14px 12px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mood-card:hover {
+  border-color: var(--pale-gold);
+  transform: translateY(-1px);
+  background: #FFFDF9;
+}
+
+.mood-card.active {
+  background: var(--deep-green);
+  border-color: var(--deep-green);
+  color: #FFF;
+  box-shadow: 0 6px 18px rgba(35, 65, 47, 0.18);
+}
+
+.mood-icon-wrap {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  background: var(--bg-creme-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+
+.mood-card.active .mood-icon-wrap {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.mood-label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+/* ==========================================================================
+   歌手推薦入口 (無侵權照片，抽象黑膠造型)
+   ========================================================================== */
+.artist-scroll-row {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  padding: 6px 0 16px 0;
+  scrollbar-width: none;
+}
+.artist-scroll-row::-webkit-scrollbar {
+  display: none;
+}
+
+.artist-entry-card {
+  flex: 0 0 125px;
+  background: var(--bg-card);
+  border: 1px solid var(--gold-border);
+  border-radius: var(--radius-lg);
+  padding: 14px 10px;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: var(--shadow-card);
+  transition: all 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.artist-entry-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--deep-green);
+  box-shadow: var(--shadow-hover);
+}
+
+.vinyl-mini-avatar {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #3D3D3D 15%, #181818 60%, #0A0A0A 100%);
+  border: 2px solid #D5C29D;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  margin-bottom: 8px;
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.artist-entry-card:hover .vinyl-mini-avatar {
+  transform: rotate(45deg);
+}
+
+.vinyl-mini-center {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  color: #FFF;
+  font-weight: 700;
+}
+
+.vinyl-center-emerald { background: #23412F; border: 1px solid var(--pale-gold); }
+.vinyl-center-ruby { background: #8A2538; border: 1px solid var(--pale-gold); }
+.vinyl-center-amber { background: #966C2A; border: 1px solid #FFE4A0; }
+.vinyl-center-navy { background: #243E54; border: 1px solid #A5C8E5; }
+
+.artist-name {
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--deep-green);
+  margin-bottom: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+.artist-category-tag {
+  font-size: 0.7rem;
+  color: var(--text-tertiary);
+}
+
+/* ==========================================================================
+   歌曲卡片 (核心視覺：高級復古雜誌排版)
+   ========================================================================== */
+.song-cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.song-card {
+  background: var(--bg-card);
+  border: 1px solid rgba(201, 168, 106, 0.35);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  box-shadow: var(--shadow-card);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.song-card:hover {
+  box-shadow: var(--shadow-hover);
+  border-color: var(--pale-gold);
+}
+
+.song-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+/* 復古黑膠唱片裝飾 SVG */
+.song-vinyl-graphic {
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+  position: relative;
+  cursor: pointer;
+}
+
+.song-vinyl-svg {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s ease;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.12));
+}
+
+.song-card:hover .song-vinyl-svg {
+  transform: rotate(90deg);
+}
+
+.song-info-wrap {
+  flex: 1;
+  min-width: 0;
+}
+
+.song-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.song-title {
+  font-family: var(--font-serif);
+  font-size: 1.12rem;
+  font-weight: 700;
+  color: var(--deep-green);
+  line-height: 1.35;
+  margin-bottom: 2px;
+}
+
+.song-artist-decade {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.song-artist-name {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.song-decade-pill {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  background: var(--bg-creme-soft);
+  color: var(--text-tertiary);
+  padding: 1px 7px;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(201, 168, 106, 0.25);
+}
+
+/* 經典歌詞或曲目背景引言 */
+.song-quote {
+  font-family: var(--font-serif);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: #4C5E53;
+  background: var(--bg-card-subtle);
+  border-left: 2px solid var(--pale-gold);
+  padding: 8px 12px;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  margin: 10px 0 14px 0;
+  font-style: italic;
+}
+
+/* 記憶摘要預覽 (如果此歌已有使用者個人回憶) */
+.user-memory-preview {
+  background: rgba(201, 168, 106, 0.12);
+  border: 1px dashed var(--pale-gold);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  margin: 10px 0 14px 0;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.memory-preview-icon {
+  color: var(--pale-gold);
+  font-size: 1rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.memory-preview-text {
+  flex: 1;
+  line-height: 1.5;
+}
+
+.memory-preview-date {
+  font-size: 0.72rem;
+  color: var(--text-tertiary);
+  margin-top: 4px;
+}
+
+/* 卡片操作區 (收藏、寫下回憶、去聽這首歌) */
+.song-card-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(201, 168, 106, 0.18);
+}
+
+.left-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-icon-action {
+  background: none;
+  border: 1px solid rgba(201, 168, 106, 0.3);
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-full);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+}
+
+.btn-icon-action:hover {
+  background: var(--bg-creme-soft);
+  border-color: var(--pale-gold);
+}
+
+.btn-icon-action.active-favorite {
+  background: var(--wine-red-soft);
+  border-color: var(--wine-red);
+  color: var(--wine-red);
+}
+
+.btn-memory-note {
+  background: none;
+  border: 1px solid rgba(201, 168, 106, 0.35);
+  height: 38px;
+  border-radius: var(--radius-full);
+  padding: 0 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.82rem;
+  color: var(--deep-green);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.btn-memory-note:hover {
+  background: var(--bg-creme-soft);
+  border-color: var(--deep-green);
+}
+
+.btn-memory-note.has-memory {
+  background: rgba(35, 65, 47, 0.08);
+  border-color: var(--deep-green);
+  font-weight: 600;
+}
+
+/* 「去聽這首歌」主要按鈕 */
+.btn-listen-primary {
+  background: var(--deep-green);
+  color: #FFF;
+  border: 1px solid var(--deep-green);
+  height: 38px;
+  border-radius: var(--radius-full);
+  padding: 0 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(35, 65, 47, 0.2);
+  transition: all 0.2s ease;
+}
+
+.btn-listen-primary:hover {
+  background: var(--deep-green-light);
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   搜尋無結果時的合法串流平台探索卡片
+   ========================================================================== */
+.empty-search-fallback {
+  background: var(--bg-card);
+  border: 1px dashed var(--pale-gold);
+  border-radius: var(--radius-xl);
+  padding: 24px 18px;
+  text-align: center;
+  margin-top: 16px;
+  box-shadow: var(--shadow-card);
+}
+
+.fallback-icon {
+  font-size: 2.2rem;
+  margin-bottom: 8px;
+}
+
+.fallback-title {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  color: var(--deep-green);
+  margin-bottom: 6px;
+}
+
+.fallback-desc {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-bottom: 18px;
+}
+
+.fallback-platforms {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.platform-search-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: var(--radius-full);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.platform-search-btn.btn-yt {
+  background: #FFF;
+  color: #C4302B;
+  border-color: rgba(196, 48, 43, 0.35);
+}
+.platform-search-btn.btn-yt:hover {
+  background: #FFF5F5;
+  box-shadow: 0 4px 12px rgba(196, 48, 43, 0.15);
+}
+
+.platform-search-btn.btn-spotify {
+  background: #FFF;
+  color: #1DB954;
+  border-color: rgba(29, 185, 84, 0.35);
+}
+.platform-search-btn.btn-spotify:hover {
+  background: #F2FCF5;
+  box-shadow: 0 4px 12px rgba(29, 185, 84, 0.15);
+}
+
+.platform-search-btn.btn-apple {
+  background: #FFF;
+  color: #FC3C44;
+  border-color: rgba(252, 60, 68, 0.35);
+}
+.platform-search-btn.btn-apple:hover {
+  background: #FFF5F6;
+  box-shadow: 0 4px 12px rgba(252, 60, 68, 0.15);
+}
+
+/* ==========================================================================
+   我的音樂回憶日記專區 (📖 我的回憶)
+   ========================================================================== */
+.memory-diary-header {
+  background: linear-gradient(135deg, var(--deep-green) 0%, #173322 100%);
+  color: #FFF;
+  border-radius: var(--radius-xl);
+  padding: 24px 20px;
+  margin-bottom: 22px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-float);
+}
+
+.memory-diary-header::after {
+  content: "";
+  position: absolute;
+  bottom: -20px;
+  right: -20px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 1px solid rgba(201, 168, 106, 0.2);
+}
+
+.memory-diary-title {
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  color: #FFF;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.memory-diary-slogan {
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85);
+  font-family: var(--font-serif);
+}
+
+.memory-diary-count-pill {
+  display: inline-block;
+  background: rgba(201, 168, 106, 0.25);
+  color: #F8E6C0;
+  border: 1px solid var(--pale-gold);
+  padding: 3px 12px;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  margin-top: 12px;
+}
+
+.memory-journal-card {
+  background: var(--bg-card);
+  border: 1px solid var(--gold-border);
+  border-radius: var(--radius-lg);
+  padding: 18px;
+  box-shadow: var(--shadow-card);
+  margin-bottom: 16px;
+  position: relative;
+  transition: all 0.25s ease;
+}
+
+.memory-journal-card:hover {
+  box-shadow: var(--shadow-hover);
+  border-color: var(--pale-gold);
+}
+
+.memory-journal-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--deep-green-surface);
+}
+
+.memory-song-title-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.memory-journal-content {
+  font-family: var(--font-serif);
+  font-size: 0.96rem;
+  line-height: 1.8;
+  color: var(--text-primary);
+  white-space: pre-wrap;
+  background: var(--bg-card-subtle);
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--wine-red);
+  margin-bottom: 12px;
+}
+
+.memory-journal-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: var(--text-tertiary);
+}
+
+.memory-journal-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-text-action {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s;
+}
+
+.btn-text-action:hover {
+  background: var(--deep-green-surface);
+  color: var(--deep-green);
+}
+
+.btn-text-action.delete:hover {
+  color: var(--wine-red);
+}
+
+/* ==========================================================================
+   底部導覽列 (Mobile-First Fixed Bottom Navigation)
+   ========================================================================== */
+.bottom-navigation {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
+  height: var(--nav-height);
+  background: rgba(251, 246, 236, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(201, 168, 106, 0.35);
+  box-shadow: 0 -4px 20px rgba(35, 65, 47, 0.08);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 500;
+  padding: 0 10px;
+  transition: max-width 0.3s ease;
+}
+
+body.expanded-desktop-mode .bottom-navigation {
+  max-width: 980px;
+}
+
+.nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  color: #6C7D73;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 8px 4px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.nav-icon-box {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: transform 0.2s ease;
+}
+
+.nav-label {
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.nav-badge-count {
+  position: absolute;
+  top: -2px;
+  right: -4px;
+  background: var(--wine-red);
+  color: #FFF;
+  font-size: 0.62rem;
+  min-width: 16px;
+  height: 16px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  font-weight: 700;
+}
+
+.nav-item.active {
+  color: var(--deep-green);
+}
+
+.nav-item.active .nav-icon-box {
+  transform: translateY(-2px);
+  color: var(--deep-green);
+}
+
+.nav-item.active .nav-label {
+  font-weight: 700;
+  color: var(--deep-green);
+}
+
+.nav-item.active::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 24px;
+  height: 3px;
+  background-color: var(--pale-gold);
+  border-radius: 0 0 2px 2px;
+}
+
+/* ==========================================================================
+   彈出視窗 & 底部抽屜 (Bottom Sheet Modal)
+   ========================================================================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(18, 33, 24, 0.6);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  z-index: 1000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.bottom-sheet {
+  background: var(--bg-card);
+  width: 100%;
+  max-width: 480px;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  border-top: 1px solid var(--pale-gold);
+  padding: 20px 24px calc(24px + env(safe-area-inset-bottom));
+  box-shadow: var(--shadow-float);
+  transform: translateY(100%);
+  transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+.modal-overlay.active .bottom-sheet {
+  transform: translateY(0);
+}
+
+body.expanded-desktop-mode .bottom-sheet {
+  max-width: 580px;
+}
+
+.sheet-handle {
+  width: 40px;
+  height: 4px;
+  background: rgba(201, 168, 106, 0.4);
+  border-radius: var(--radius-full);
+  margin: 0 auto 16px auto;
+}
+
+.sheet-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.sheet-title {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  color: var(--deep-green);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.sheet-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.legal-notice-box {
+  background: var(--bg-card-subtle);
+  border: 1px solid rgba(201, 168, 106, 0.35);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.legal-notice-box svg {
+  color: var(--pale-gold);
+  flex-shrink: 0;
+}
+
+/* 官方串流平台直連按鈕 */
+.platform-links-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.platform-link-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.platform-link-btn:hover {
+  transform: translateY(-2px);
+}
+
+.platform-link-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.platform-link-btn.youtube {
+  background: #FFF;
+  color: #282828;
+  border-color: #E2E2E2;
+}
+.platform-link-btn.youtube:hover {
+  border-color: #FF0000;
+  background: #FFF8F8;
+  box-shadow: 0 4px 14px rgba(255, 0, 0, 0.12);
+}
+
+.platform-link-btn.spotify {
+  background: #FFF;
+  color: #191414;
+  border-color: #E2E2E2;
+}
+.platform-link-btn.spotify:hover {
+  border-color: #1DB954;
+  background: #F4FBF6;
+  box-shadow: 0 4px 14px rgba(29, 185, 84, 0.12);
+}
+
+.platform-link-btn.applemusic {
+  background: #FFF;
+  color: #232323;
+  border-color: #E2E2E2;
+}
+.platform-link-btn.applemusic:hover {
+  border-color: #FC3C44;
+  background: #FFF5F6;
+  box-shadow: 0 4px 14px rgba(252, 60, 68, 0.12);
+}
+
+.sheet-close-btn {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid rgba(201, 168, 106, 0.35);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  border-radius: var(--radius-full);
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.sheet-close-btn:hover {
+  background: var(--bg-creme-soft);
+}
+
+/* ==========================================================================
+   音樂回憶撰寫面板 (這首歌讓我想到……)
+   ========================================================================== */
+.memory-editor-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.quick-prompt-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.prompt-chip {
+  background: var(--bg-creme-soft);
+  border: 1px solid rgba(201, 168, 106, 0.35);
+  border-radius: var(--radius-full);
+  padding: 6px 12px;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.prompt-chip:hover {
+  background: var(--deep-green-surface);
+  color: var(--deep-green);
+  border-color: var(--deep-green);
+}
+
+.memory-textarea {
+  width: 100%;
+  min-height: 120px;
+  background: var(--bg-creme-soft);
+  border: 1px solid rgba(201, 168, 106, 0.4);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--text-primary);
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.memory-textarea:focus {
+  border-color: var(--deep-green);
+  background: #FFF;
+}
+
+.memory-editor-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.char-counter {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+}
+
+.btn-save-memory {
+  background: var(--wine-red);
+  color: #FFF;
+  border: none;
+  padding: 12px 24px;
+  border-radius: var(--radius-full);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 12px rgba(138, 37, 56, 0.25);
+}
+
+.btn-save-memory:hover {
+  background: var(--wine-red-light);
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   輕量級 Toast 提示
+   ========================================================================== */
+.toast-container {
+  position: fixed;
+  bottom: calc(var(--nav-height) + 16px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2000;
+  pointer-events: none;
+}
+
+.toast {
+  background: rgba(25, 48, 34, 0.92);
+  color: #FFF;
+  border: 1px solid var(--pale-gold);
+  border-radius: var(--radius-full);
+  padding: 10px 20px;
+  font-size: 0.85rem;
+  box-shadow: var(--shadow-float);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 空狀態提示卡片 */
+.empty-state-card {
+  text-align: center;
+  padding: 40px 20px;
+  background: var(--bg-card);
+  border: 1px dashed var(--gold-border);
+  border-radius: var(--radius-xl);
+  margin: 20px 0;
+}
+
+.empty-state-icon {
+  font-size: 2.8rem;
+  margin-bottom: 12px;
+  color: var(--pale-gold);
+}
+
+.empty-state-title {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  color: var(--deep-green);
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+
+.empty-state-desc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  max-width: 280px;
+  margin: 0 auto 16px auto;
+}
+
+.btn-empty-action {
+  background: var(--deep-green);
+  color: #FFF;
+  border: none;
+  padding: 10px 22px;
+  border-radius: var(--radius-full);
+  font-size: 0.85rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+</style>
 </head>
 <body>
 
@@ -209,8 +1692,1734 @@
   </div>
 
   <!-- 核心資料與邏輯 -->
-  <script src="js/data.js"></script>
-  <script src="js/app.js"></script>
+  <script>
+/**
+ * 青春音樂時光機 - 經典歌曲資料庫
+ * 
+ * 設計原則：
+ * 1. 結構易於擴充，未來可隨時新增歌手與曲目
+ * 2. 涵蓋 1970s, 1980s, 1990s 華語與西洋經典
+ * 3. 配合六大心情情境標籤
+ * 4. 遵守版權規範：不存儲任何音訊檔，僅提供檢索與外部合法平台導航資訊
+ * 5. 相容瀏覽器 file:// 直接開啟與各類 Web 伺服器
+ */
+
+const MOODS = [
+  { id: 'quiet_afternoon', label: '下午想安靜一下', icon: '☕', desc: '適合配一杯熱茶或黑咖啡，讓時光慢慢流逝' },
+  { id: 'past_self', label: '想起以前的自己', icon: '❤️', desc: '那個無所畏懼、對未來充滿憧憬的年輕歲月' },
+  { id: 'nostalgia', label: '有一點想念', icon: '🌙', desc: '夜深人靜時，心底悄悄浮現的那張臉龐' },
+  { id: 'driving', label: '開車聽', icon: '🚗', desc: '微風吹過車窗，伴著節奏一路往前' },
+  { id: 'housework', label: '做家事聽', icon: '🏠', desc: '熟悉的旋律讓日常家務變得輕鬆而溫暖' },
+  { id: 'good_mood', label: '今天心情很好', icon: '😊', desc: '陽光正好，踩著輕快的步伐擁抱今天' }
+];
+
+const DECADES = [
+  { id: '1970s', label: '1970s', title: '七十年代・純真年代', desc: '民歌萌芽、黑膠唱片、純粹溫暖的木吉他與管弦樂' },
+  { id: '1980s', label: '1980s', title: '八十年代・黃金歲月', desc: '卡式錄音帶、滾石與飛碟的輝煌傳奇、流行文化巨浪' },
+  { id: '1990s', label: '1990s', title: '九十年代・璀璨顛峰', desc: 'CD唱片盛世、華語歌壇全盛期、MTV電視台與隨身聽' }
+];
+
+const ARTISTS = [
+  // 華語歌手
+  {
+    id: 'tsai-chin',
+    name: '蔡琴',
+    category: 'mandarin',
+    decade: '1970s',
+    bio: '華語歌壇的天鵝絨低音歌后，民歌時期出道，溫潤醇厚的歌聲撫慰了數個世代的心靈。',
+    signatureTracks: ['恰似你的溫柔', '被遺忘的時光', '出塞曲', '讀你'],
+    badgeStyle: 'emerald'
+  },
+  {
+    id: 'sarah-chen',
+    name: '陳淑樺',
+    category: 'mandarin',
+    decade: '1980s',
+    bio: '都會女性心聲的最佳代言人，以細膩真摯的唱腔唱遍現代人的愛情與堅毅。',
+    signatureTracks: ['夢醒時分', '問', '滾滾紅塵', '明明白白我的心'],
+    badgeStyle: 'ruby'
+  },
+  {
+    id: 'teresa-teng',
+    name: '鄧麗君',
+    category: 'mandarin',
+    decade: '1970s',
+    bio: '華語流行音樂永遠的傳奇，溫柔婉約的嗓音傳唱亞洲各地，有華人的地方就有她的歌聲。',
+    signatureTracks: ['月亮代表我的心', '小城故事', '甜蜜蜜', '我只在乎你'],
+    badgeStyle: 'amber'
+  },
+  {
+    id: 'lo-ta-yu',
+    name: '羅大佑',
+    category: 'mandarin',
+    decade: '1980s',
+    bio: '華語流行音樂教父，以深刻敏銳的人文批判與熾熱的情感詩篇，掀起時代黑色狂潮。',
+    signatureTracks: ['鹿港小鎮', '戀曲1980', '童年', '光陰的故事'],
+    badgeStyle: 'emerald'
+  },
+  {
+    id: 'jacky-cheung',
+    name: '張學友',
+    category: 'mandarin',
+    decade: '1990s',
+    bio: '華語歌神，無與倫比的情感演繹與精準唱功，創下九十年代華語唱片銷售奇蹟。',
+    signatureTracks: ['吻別', '一路上有你', '祝福', '每天愛你多一些'],
+    badgeStyle: 'navy'
+  },
+  {
+    id: 'faye-wong',
+    name: '王菲',
+    category: 'mandarin',
+    decade: '1990s',
+    bio: '空靈飄渺的嗓音與特立獨行的藝術氣質，引領九十年代末華語流行音樂的最前衛風貌。',
+    signatureTracks: ['紅豆', '約定', '容易受傷的女人', '執迷不悔'],
+    badgeStyle: 'ruby'
+  },
+  {
+    id: 'tom-chang',
+    name: '張雨生',
+    category: 'mandarin',
+    decade: '1980s',
+    bio: '高亢清澈的少年音色與非凡的音樂才華，激勵了無數渴望飛翔與追尋理想的青春靈魂。',
+    signatureTracks: ['我的未來不是夢', '天天想你', '大海', '口是心非'],
+    badgeStyle: 'amber'
+  },
+  {
+    id: 'fong-fei-fei',
+    name: '鳳飛飛',
+    category: 'mandarin',
+    decade: '1970s',
+    bio: '帽子歌后，國民天后，平易近人的熱情魅力與經典歌聲深植台灣每條街巷。',
+    signatureTracks: ['掌聲響起', '祝你幸福', '敲敲門', '追夢人'],
+    badgeStyle: 'emerald'
+  },
+
+  // 西洋歌手
+  {
+    id: 'carpenters',
+    name: 'Carpenters',
+    category: 'western',
+    decade: '1970s',
+    bio: '理查與凱倫·卡本特兄妹組合，凱倫天使般的低沉醇厚嗓音是七十年代最溫暖的聽覺印記。',
+    signatureTracks: ['Yesterday Once More', 'Top of the World', '(They Long to Be) Close to You', 'Rainy Days and Mondays'],
+    badgeStyle: 'amber'
+  },
+  {
+    id: 'rod-stewart',
+    name: 'Rod Stewart',
+    category: 'western',
+    decade: '1970s',
+    bio: '搖滾樂壇的「公雞搖滾」傳奇，獨特沙啞磁性的嗓音與深情民謠演繹，征服數十年全球樂迷。',
+    signatureTracks: ['Sailing', 'Have I Told You Lately', "I Don't Want to Talk About It", 'Maggie May'],
+    badgeStyle: 'navy'
+  },
+  {
+    id: 'bee-gees',
+    name: 'Bee Gees',
+    category: 'western',
+    decade: '1970s',
+    bio: '吉布兄弟三人合唱團，以無懈可擊的三部和聲與迪斯可浪潮席捲全球，流行樂史上的奇蹟。',
+    signatureTracks: ['How Deep Is Your Love', 'Stayin\' Alive', 'Night Fever', 'Too Much Heaven'],
+    badgeStyle: 'ruby'
+  },
+  {
+    id: 'eagles',
+    name: 'Eagles',
+    category: 'western',
+    decade: '1970s',
+    bio: '加州鄉村搖滾巔峰代表，動人的多部吉他和弦與對時代變遷的喟嘆，傳世永恆。',
+    signatureTracks: ['Hotel California', 'Desperado', 'Take It Easy', 'I Can\'t Tell You Why'],
+    badgeStyle: 'emerald'
+  },
+  {
+    id: 'michael-jackson',
+    name: 'Michael Jackson',
+    category: 'western',
+    decade: '1980s',
+    bio: '流行樂之王（King of Pop），以劃時代的舞步與跨越種族國界的音樂能量重新定義世界流行文化。',
+    signatureTracks: ['Billie Jean', 'Beat It', 'Man in the Mirror', 'Thriller'],
+    badgeStyle: 'ruby'
+  },
+  {
+    id: 'whitney-houston',
+    name: 'Whitney Houston',
+    category: 'western',
+    decade: '1980s',
+    bio: '天籟歌后，無可匹敵的磅礴爆發力與深情轉音，八十年代最耀眼的黑人女歌手。',
+    signatureTracks: ['Saving All My Love For You', 'Greatest Love of All', 'I Wanna Dance with Somebody', 'I Will Always Love You'],
+    badgeStyle: 'amber'
+  },
+  {
+    id: 'air-supply',
+    name: 'Air Supply',
+    category: 'western',
+    decade: '1980s',
+    bio: '空中補給合唱團，以清亮深情的抒情慢歌風靡全亞洲，青春愛戀歲月裡必有的背景音樂。',
+    signatureTracks: ['Lost in Love', 'All Out of Love', 'Making Love Out of Nothing at All'],
+    badgeStyle: 'navy'
+  },
+  {
+    id: 'celine-dion',
+    name: 'Céline Dion',
+    category: 'western',
+    decade: '1990s',
+    bio: '加拿大法語天后進軍英語歌壇的極致傳奇，大氣磅礡的史詩級歌喉撫慰億萬人心。',
+    signatureTracks: ['My Heart Will Go On', 'Because You Loved Me', 'The Power of Love', 'All by Myself'],
+    badgeStyle: 'emerald'
+  }
+];
+
+const SONGS = [
+  // ================= 1970s 華語 =================
+  {
+    id: 's01',
+    title: '被遺忘的時光',
+    artist: '蔡琴',
+    artistId: 'tsai-chin',
+    decade: '1970s',
+    year: '1979',
+    category: 'mandarin',
+    moods: ['quiet_afternoon', 'nostalgia'],
+    quote: '是誰在敲打我窗？是誰在撩動琴弦？記憶中的雨滴，緩緩打在心坎上。',
+    albumNote: '民歌時期的雋永名作，音響測試天碟必備曲目。'
+  },
+  {
+    id: 's02',
+    title: '恰似你的溫柔',
+    artist: '蔡琴',
+    artistId: 'tsai-chin',
+    decade: '1970s',
+    year: '1979',
+    category: 'mandarin',
+    moods: ['nostalgia', 'past_self'],
+    quote: '某年某月的某一天，就像一張破碎的臉，難以開口道再見。',
+    albumNote: '梁弘志詞曲，一曲成名，奠定蔡琴低音天后地位。'
+  },
+  {
+    id: 's03',
+    title: '月亮代表我的心',
+    artist: '鄧麗君',
+    artistId: 'teresa-teng',
+    decade: '1970s',
+    year: '1977',
+    category: 'mandarin',
+    moods: ['nostalgia', 'quiet_afternoon'],
+    quote: '你問我愛你有多深，我愛你有幾分。輕輕的一個吻，已經打動我的心。',
+    albumNote: '華人世界最家喻戶曉的情歌，跨越世紀的深情告白。'
+  },
+  {
+    id: 's04',
+    title: '小城故事',
+    artist: '鄧麗君',
+    artistId: 'teresa-teng',
+    decade: '1970s',
+    year: '1979',
+    category: 'mandarin',
+    moods: ['good_mood', 'housework'],
+    quote: '小城故事多，充滿喜和樂。若是你到小城來，收穫特別多。',
+    albumNote: '電影同名主題曲，溫潤淳樸，宛如回到陽光灑落的鄉間午後。'
+  },
+  {
+    id: 's05',
+    title: '甜蜜蜜',
+    artist: '鄧麗君',
+    artistId: 'teresa-teng',
+    decade: '1970s',
+    year: '1979',
+    category: 'mandarin',
+    moods: ['good_mood', 'housework'],
+    quote: '甜蜜蜜，你笑得甜蜜蜜，好像花兒開在春風裡。',
+    albumNote: '改編自印尼民謠，唱出了情竇初開時最甜美的喜悅。'
+  },
+  {
+    id: 's06',
+    title: '掌聲響起',
+    artist: '鳳飛飛',
+    artistId: 'fong-fei-fei',
+    decade: '1970s',
+    year: '1979',
+    category: 'mandarin',
+    moods: ['past_self', 'good_mood'],
+    quote: '孤獨站在這舞台，聽到掌聲響起來，我的心中有無限感慨。',
+    albumNote: '鳳飛飛最具自傳色彩的經典之作，唱出每個奮鬥者台前幕後的淚水。'
+  },
+  {
+    id: 's07',
+    title: '祝你幸福',
+    artist: '鳳飛飛',
+    artistId: 'fong-fei-fei',
+    decade: '1970s',
+    year: '1972',
+    category: 'mandarin',
+    moods: ['housework', 'good_mood'],
+    quote: '人生的旅途有甘有苦，要有堅強意志。祝你幸福，春風已來到。',
+    albumNote: '鳳飛飛早年成名作，溫暖勵志，洋溢著七十年代質樸的朝氣。'
+  },
+  {
+    id: 's08',
+    title: '出塞曲',
+    artist: '蔡琴',
+    artistId: 'tsai-chin',
+    decade: '1970s',
+    year: '1979',
+    category: 'mandarin',
+    moods: ['driving', 'housework'],
+    quote: '請為我唱一首出塞曲，用那遺忘了的古老言語。',
+    albumNote: '席慕蓉作詩、李泰祥作曲，大氣豪邁，蔡琴少有的磅礴之聲。'
+  },
+
+  // ================= 1970s 西洋 =================
+  {
+    id: 's09',
+    title: 'Yesterday Once More',
+    artist: 'Carpenters',
+    artistId: 'carpenters',
+    decade: '1970s',
+    year: '1973',
+    category: 'western',
+    moods: ['quiet_afternoon', 'nostalgia'],
+    quote: 'When I was young I\'d listen to the radio, waitin\' for my favorite songs...',
+    albumNote: '收錄於《Now & Then》，全球無數人青春記憶中無可替代的收音機之歌。'
+  },
+  {
+    id: 's10',
+    title: 'Top of the World',
+    artist: 'Carpenters',
+    artistId: 'carpenters',
+    decade: '1970s',
+    year: '1972',
+    category: 'western',
+    moods: ['good_mood', 'housework'],
+    quote: 'I\'m on the top of the world lookin\' down on creation, and the only explanation I can find...',
+    albumNote: '無憂無慮的鄉村輕快旋律，一聽就讓人嘴角上揚的晴朗心境。'
+  },
+  {
+    id: 's11',
+    title: '(They Long to Be) Close to You',
+    artist: 'Carpenters',
+    artistId: 'carpenters',
+    decade: '1970s',
+    year: '1970',
+    category: 'western',
+    moods: ['quiet_afternoon', 'nostalgia'],
+    quote: 'Why do birds suddenly appear every time you are near? Just like me, they long to be close to you.',
+    albumNote: 'Burt Bacharach 譜寫的傳世傑作，卡本特兄妹拿下告示牌冠軍的起點。'
+  },
+  {
+    id: 's12',
+    title: 'Sailing',
+    artist: 'Rod Stewart',
+    artistId: 'rod-stewart',
+    decade: '1970s',
+    year: '1975',
+    category: 'western',
+    moods: ['driving', 'nostalgia'],
+    quote: 'I am sailing, I am sailing home again \'cross the sea. I am sailing stormy waters, to be near you...',
+    albumNote: '洛史都華沙啞嗓音下的磅礴史詩，彷彿在微風破浪的大海中前行。'
+  },
+  {
+    id: 's13',
+    title: 'I Don\'t Want to Talk About It',
+    artist: 'Rod Stewart',
+    artistId: 'rod-stewart',
+    decade: '1970s',
+    year: '1975',
+    category: 'western',
+    moods: ['quiet_afternoon', 'nostalgia'],
+    quote: 'I don\'t want to talk about it, how you broke my heart. If I stay here just a little bit longer...',
+    albumNote: '深情男子無法言說的心碎，木吉他與弦樂交織出極致溫柔。'
+  },
+  {
+    id: 's14',
+    title: 'How Deep Is Your Love',
+    artist: 'Bee Gees',
+    artistId: 'bee-gees',
+    decade: '1970s',
+    year: '1977',
+    category: 'western',
+    moods: ['quiet_afternoon', 'good_mood'],
+    quote: 'I know your eyes in the morning sun, I feel you touch me in the pouring rain...',
+    albumNote: '《週末夜狂熱》電影插曲，絲絨般優雅的三部假聲和弦。'
+  },
+  {
+    id: 's15',
+    title: 'Hotel California',
+    artist: 'Eagles',
+    artistId: 'eagles',
+    decade: '1970s',
+    year: '1976',
+    category: 'western',
+    moods: ['driving', 'past_self'],
+    quote: 'On a dark desert highway, cool wind in my hair, warm smell of colitas, rising up through the air...',
+    albumNote: '搖滾史上的曠世傳奇，開頭的十二弦吉他與尾奏雙吉他交響百聽不厭。'
+  },
+  {
+    id: 's16',
+    title: 'Desperado',
+    artist: 'Eagles',
+    artistId: 'eagles',
+    decade: '1970s',
+    year: '1973',
+    category: 'western',
+    moods: ['quiet_afternoon', 'past_self'],
+    quote: 'Desperado, why don\'t you come to your senses? You been out ridin\' fences for so long now...',
+    albumNote: '寫給孤獨浪子的自省之歌，鋼琴聲與 Don Henley 的沙啞嗓音直擊人心。'
+  },
+
+  // ================= 1980s 華語 =================
+  {
+    id: 's17',
+    title: '夢醒時分',
+    artist: '陳淑樺',
+    artistId: 'sarah-chen',
+    decade: '1980s',
+    year: '1989',
+    category: 'mandarin',
+    moods: ['past_self', 'driving'],
+    quote: '你說你愛了不該愛的人，你的心中滿是傷痕。早知道傷心總是難免的，你又何苦一往情深。',
+    albumNote: '李宗盛詞曲，台灣唱片史上第一張破百萬銷售專輯《跟你說 聽你說》主打歌。'
+  },
+  {
+    id: 's18',
+    title: '問',
+    artist: '陳淑樺',
+    artistId: 'sarah-chen',
+    decade: '1980s',
+    year: '1989',
+    category: 'mandarin',
+    moods: ['nostalgia', 'quiet_afternoon'],
+    quote: '誰讓你心動？誰讓你心痛？誰會讓你偶爾想要擁他在懷中？',
+    albumNote: '道盡紅塵男女為愛執迷、為情受苦的心酸與無奈。'
+  },
+  {
+    id: 's19',
+    title: '滾滾紅塵',
+    artist: '陳淑樺',
+    artistId: 'sarah-chen',
+    decade: '1980s',
+    year: '1989',
+    category: 'mandarin',
+    moods: ['quiet_afternoon', 'nostalgia'],
+    quote: '起初不經意的你，和少年不經世的我，紅塵中的情緣，只因那一眼眷戀。',
+    albumNote: '三毛編劇同名電影主題曲，羅大佑與陳淑樺的史詩合作。'
+  },
+  {
+    id: 's20',
+    title: '戀曲1980',
+    artist: '羅大佑',
+    artistId: 'lo-ta-yu',
+    decade: '1980s',
+    year: '1982',
+    category: 'mandarin',
+    moods: ['past_self', 'nostalgia'],
+    quote: '姑娘你別哭泣，我倆還在一起。今天的歡樂將是明天永恆的回憶。',
+    albumNote: '收錄於《之乎者也》，以平淡質樸的語氣顛覆了傳統芭樂情歌的寫法。'
+  },
+  {
+    id: 's21',
+    title: '鹿港小鎮',
+    artist: '羅大佑',
+    artistId: 'lo-ta-yu',
+    decade: '1980s',
+    year: '1982',
+    category: 'mandarin',
+    moods: ['past_self', 'driving'],
+    quote: '台北不是我的家，我的家鄉沒有霓虹燈。鹿港的街道，鹿港的漁村，媽祖廟裡燒香的人們。',
+    albumNote: '華語搖滾里程碑，對城鄉變遷與青年迷惘最震撼的吶喊。'
+  },
+  {
+    id: 's22',
+    title: '光陰的故事',
+    artist: '羅大佑',
+    artistId: 'lo-ta-yu',
+    decade: '1980s',
+    year: '1982',
+    category: 'mandarin',
+    moods: ['nostalgia', 'past_self'],
+    quote: '流水它帶走光陰的故事改變了一個人，就在那多愁善感而初次等待的青春。',
+    albumNote: '畢業典禮與同學聚會永恆的必播曲，時光帶不走的青春印記。'
+  },
+  {
+    id: 's23',
+    title: '我的未來不是夢',
+    artist: '張雨生',
+    artistId: 'tom-chang',
+    decade: '1980s',
+    year: '1988',
+    category: 'mandarin',
+    moods: ['past_self', 'good_mood'],
+    quote: '我知道我的未來不是夢，我認真地過每一分鐘；我的未來不是夢，我的心跟著希望在動。',
+    albumNote: '黑松沙士廣告曲，張雨生驚艷全台灣的起點，永不褪色的熱血夢想。'
+  },
+  {
+    id: 's24',
+    title: '天天想你',
+    artist: '張雨生',
+    artistId: 'tom-chang',
+    decade: '1980s',
+    year: '1988',
+    category: 'mandarin',
+    moods: ['nostalgia', 'good_mood'],
+    quote: '天天想你，天天問自己，到什麼時候才能告訴你；天天想你，天天守住一顆心。',
+    albumNote: '首張個人專輯同名主打，純真、嘹亮、毫不保留的青春愛意。'
+  },
+
+  // ================= 1980s 西洋 =================
+  {
+    id: 's25',
+    title: 'Billie Jean',
+    artist: 'Michael Jackson',
+    artistId: 'michael-jackson',
+    decade: '1980s',
+    year: '1982',
+    category: 'western',
+    moods: ['driving', 'housework'],
+    quote: 'Billie Jean is not my lover, she\'s just a girl who claims that I am the one...',
+    albumNote: '《Thriller》專輯代表作，標誌性的低音 Bassline 與太空步傳奇。'
+  },
+  {
+    id: 's26',
+    title: 'Saving All My Love For You',
+    artist: 'Whitney Houston',
+    artistId: 'whitney-houston',
+    decade: '1980s',
+    year: '1985',
+    category: 'western',
+    moods: ['quiet_afternoon', 'nostalgia'],
+    quote: 'A few stolen moments is all that we share. You\'ve got your family, and they need you there...',
+    albumNote: '惠妮休斯頓首張個人專輯的冠軍單曲，薩克斯風與細膩靈魂嗓音完美結合。'
+  },
+  {
+    id: 's27',
+    title: 'Greatest Love of All',
+    artist: 'Whitney Houston',
+    artistId: 'whitney-houston',
+    decade: '1980s',
+    year: '1985',
+    category: 'western',
+    moods: ['past_self', 'good_mood'],
+    quote: 'I believe that children are our future. Teach them well and let them lead the way...',
+    albumNote: '勵志經典，學會愛自己是世界上最偉大的愛。'
+  },
+  {
+    id: 's28',
+    title: 'Lost in Love',
+    artist: 'Air Supply',
+    artistId: 'air-supply',
+    decade: '1980s',
+    year: '1980',
+    category: 'western',
+    moods: ['driving', 'nostalgia'],
+    quote: 'I realize the best part of love is the thinnest slice, and it don\'t count for much...',
+    albumNote: '開啟空中補給全球軟搖滾熱潮的成名之作，清澈悠揚的和聲。'
+  },
+  {
+    id: 's29',
+    title: 'Making Love Out of Nothing at All',
+    artist: 'Air Supply',
+    artistId: 'air-supply',
+    decade: '1980s',
+    year: '1983',
+    category: 'western',
+    moods: ['driving', 'past_self'],
+    quote: 'I know how to touch you, I know how to cater to you; but I don\'t know how to leave you...',
+    albumNote: 'Jim Steinman 史詩級譜寫，爆發力十足的高音對唱與鋼琴前奏。'
+  },
+  {
+    id: 's30',
+    title: 'Have I Told You Lately',
+    artist: 'Rod Stewart',
+    artistId: 'rod-stewart',
+    decade: '1980s',
+    year: '1989',
+    category: 'western',
+    moods: ['quiet_afternoon', 'nostalgia'],
+    quote: 'Have I told you lately that I love you? Have I told you there\'s no one else above you?',
+    albumNote: '翻唱 Van Morrison 名曲，洛史都華深情浪漫巔峰之作。'
+  },
+
+  // ================= 1990s 華語 =================
+  {
+    id: 's31',
+    title: '吻別',
+    artist: '張學友',
+    artistId: 'jacky-cheung',
+    decade: '1990s',
+    year: '1993',
+    category: 'mandarin',
+    moods: ['nostalgia', 'past_self'],
+    quote: '我和你吻別在無人的街，讓風痴笑我不能拒絕；我和你吻別在狂亂的夜，我的心等著迎接傷悲。',
+    albumNote: '殷文琦作曲、何啟弘作詞，席捲全亞洲四百萬張銷量的華語神話。'
+  },
+  {
+    id: 's32',
+    title: '一路上有你',
+    artist: '張學友',
+    artistId: 'jacky-cheung',
+    decade: '1990s',
+    year: '1993',
+    category: 'mandarin',
+    moods: ['driving', 'nostalgia'],
+    quote: '一路上有你，苦一點也願意，就算這輩子注定要和你分離。',
+    albumNote: '深情真摯的陪伴之歌，唱出對同行伴侶最深沉的感謝與珍惜。'
+  },
+  {
+    id: 's33',
+    title: '祝福',
+    artist: '張學友',
+    artistId: 'jacky-cheung',
+    decade: '1990s',
+    year: '1993',
+    category: 'mandarin',
+    moods: ['past_self', 'good_mood'],
+    quote: '不要問，不要說，一切盡在不言中。這一刻，偎著燭光，讓我們靜靜的度過。',
+    albumNote: '畢業與道別時最動人的互道珍重，郭子作曲、丁曉雯作詞。'
+  },
+  {
+    id: 's34',
+    title: '紅豆',
+    artist: '王菲',
+    artistId: 'faye-wong',
+    decade: '1990s',
+    year: '1998',
+    category: 'mandarin',
+    moods: ['quiet_afternoon', 'nostalgia'],
+    quote: '有時候，有時候，我會相信一切有盡頭，相聚離開都有時候，沒有什麼會永垂不朽。',
+    albumNote: '柳重言作曲、林夕作詞，王菲空靈嗓音下最撫平浮躁的經典。'
+  },
+  {
+    id: 's35',
+    title: '約定',
+    artist: '王菲',
+    artistId: 'faye-wong',
+    decade: '1990s',
+    year: '1997',
+    category: 'mandarin',
+    moods: ['quiet_afternoon', 'nostalgia'],
+    quote: '還記得當天旅館的門牌，還記得街燈照出一臉黃，還記得跟你在遠處望向南邊。',
+    albumNote: '陳小霞作曲，粵語原版真摯動人，如同一幅褪色的明信片。'
+  },
+  {
+    id: 's36',
+    title: '容易受傷的女人',
+    artist: '王菲',
+    artistId: 'faye-wong',
+    decade: '1990s',
+    year: '1992',
+    category: 'mandarin',
+    moods: ['nostalgia', 'past_self'],
+    quote: '人漸醉了夜更深，在這一刻允許我任性，情深看著這雙眼睛。',
+    albumNote: '王菲紅遍兩岸三地的奠基之作，柔弱卻堅定的女性心事。'
+  },
+
+  // ================= 1990s 西洋 =================
+  {
+    id: 's37',
+    title: 'My Heart Will Go On',
+    artist: 'Céline Dion',
+    artistId: 'celine-dion',
+    decade: '1990s',
+    year: '1997',
+    category: 'western',
+    moods: ['past_self', 'nostalgia'],
+    quote: 'Near, far, wherever you are, I believe that the heart does go on...',
+    albumNote: '電影《鐵達尼號》主題曲，九十年代全球最具代表性的愛情史詩。'
+  },
+  {
+    id: 's38',
+    title: 'Because You Loved Me',
+    artist: 'Céline Dion',
+    artistId: 'celine-dion',
+    decade: '1990s',
+    year: '1996',
+    category: 'western',
+    moods: ['quiet_afternoon', 'good_mood'],
+    quote: 'You were my strength when I was weak, you were my voice when I couldn\'t speak...',
+    albumNote: '獻給生命中默默支持者最深情的讚歌，葛萊美與奧斯卡提名之作。'
+  },
+  {
+    id: 's39',
+    title: 'I Will Always Love You',
+    artist: 'Whitney Houston',
+    artistId: 'whitney-houston',
+    decade: '1990s',
+    year: '1992',
+    category: 'western',
+    moods: ['nostalgia', 'past_self'],
+    quote: 'And I will always love you, I will always love you... my darling, you.',
+    albumNote: '電影《終極保鑣》主題曲，無伴奏清唱開場震撼流行樂壇。'
+  },
+  {
+    id: 's40',
+    title: 'Rainy Days and Mondays',
+    artist: 'Carpenters',
+    artistId: 'carpenters',
+    decade: '1970s',
+    year: '1971',
+    category: 'western',
+    moods: ['quiet_afternoon', 'nostalgia'],
+    quote: 'Rainy days and Mondays always get me down. Funny, but it seems I always wind up here with you...',
+    albumNote: '陰雨綿綿的憂鬱午後，凱倫·卡本特的歌聲是最好的避雨港灣。'
+  }
+];
+
+// 掛載至全域 window，確保本機 file:// 直接雙擊時無 CORS 模組阻擋問題
+window.YOUTH_MUSIC_DATA = {
+  MOODS,
+  DECADES,
+  ARTISTS,
+  SONGS
+};
+
+
+/**
+ * 青春音樂時光機 - 核心邏輯
+ * 
+ * 遵守版權原則：
+ * - 嚴禁下載、轉檔、自行儲存或串流音訊檔。
+ * - 所有歌曲導向合法官方音樂平台（YouTube / Spotify / Apple Music）進行搜尋與聆聽。
+ * - 收藏與音樂回憶日記儲存於使用者瀏覽器 LocalStorage。
+ */
+
+const { SONGS, ARTISTS, MOODS, DECADES } = window.YOUTH_MUSIC_DATA || {};
+
+class YouthMusicApp {
+  constructor() {
+    this.activeTab = 'time_machine'; // 'time_machine' | 'explore' | 'favorites' | 'memories'
+    this.selectedDecade = null; // null | '1970s' | '1980s' | '1990s'
+    this.selectedCategory = 'all'; // 'all' | 'mandarin' | 'western'
+    this.selectedMood = null; // null | moodId
+    this.selectedArtistId = null; // null | artistId
+    this.searchQuery = '';
+
+    // Local Storage 狀態
+    this.favorites = this.loadFavorites();
+    this.memories = this.loadMemories();
+
+    // 當前開啟的互動歌曲
+    this.activeListenSong = null;
+    this.activeMemorySong = null;
+
+    this.initElements();
+    this.bindEvents();
+    this.render();
+  }
+
+  // Local Storage 操作
+  loadFavorites() {
+    try {
+      const saved = localStorage.getItem('youth_music_favorites');
+      return saved ? JSON.parse(saved) : ['s01', 's09', 's17', 's31']; // 預設提供幾首經典初體驗
+    } catch (e) {
+      return ['s01', 's09', 's17'];
+    }
+  }
+
+  saveFavorites() {
+    try {
+      localStorage.setItem('youth_music_favorites', JSON.stringify(this.favorites));
+      this.updateBadges();
+    } catch (e) {
+      console.error('儲存收藏失敗', e);
+    }
+  }
+
+  loadMemories() {
+    try {
+      const saved = localStorage.getItem('youth_music_memories');
+      return saved ? JSON.parse(saved) : {
+        's01': {
+          note: '電影《無間道》裡梁朝偉和劉德華在音響店聽的歌，那種蔡琴天鵝絨般的嗓音，每次聽都起雞皮疙瘩。',
+          date: '2024/03/15'
+        },
+        's09': {
+          note: '國中時第一次用卡帶隨身聽聽這首歌，雖然英文還不是很好，但卡本特的歌聲讓我每天放學路上都很溫暖。',
+          date: '2024/05/20'
+        },
+        's17': {
+          note: '剛出社會租屋在台北的小套房，那時候每天晚上收音機都在放陳淑樺的歌，不知不覺就走過了幾十年。',
+          date: '2024/08/12'
+        }
+      };
+    } catch (e) {
+      return {};
+    }
+  }
+
+  saveMemories() {
+    try {
+      localStorage.setItem('youth_music_memories', JSON.stringify(this.memories));
+      this.updateBadges();
+    } catch (e) {
+      console.error('儲存回憶失敗', e);
+    }
+  }
+
+  initElements() {
+    // 容器
+    this.mainContent = document.getElementById('mainContent');
+    this.bottomNav = document.getElementById('bottomNav');
+    this.favCountBadge = document.getElementById('favCountBadge');
+    this.memoryCountBadge = document.getElementById('memoryCountBadge');
+
+    // 播放彈窗
+    this.listenModal = document.getElementById('listenModal');
+    this.listenModalTitle = document.getElementById('listenModalTitle');
+    this.listenModalArtist = document.getElementById('listenModalArtist');
+    this.linkYoutube = document.getElementById('linkYoutube');
+    this.linkSpotify = document.getElementById('linkSpotify');
+    this.linkAppleMusic = document.getElementById('linkAppleMusic');
+
+    // 回憶編輯彈窗
+    this.memoryModal = document.getElementById('memoryModal');
+    this.memoryModalTitle = document.getElementById('memoryModalTitle');
+    this.memoryModalArtist = document.getElementById('memoryModalArtist');
+    this.memoryTextarea = document.getElementById('memoryTextarea');
+    this.charCount = document.getElementById('charCount');
+    this.btnSaveMemory = document.getElementById('btnSaveMemory');
+    this.promptChips = document.querySelectorAll('.prompt-chip');
+
+    // 吐司提示
+    this.toast = document.getElementById('toast');
+    this.toastMessage = document.getElementById('toastMessage');
+
+    // 寬螢幕切換
+    this.desktopToggle = document.getElementById('desktopViewToggle');
+  }
+
+  bindEvents() {
+    // 底部導航切換
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.addEventListener('click', (e) => {
+        const tab = item.dataset.tab;
+        if (tab) {
+          this.switchTab(tab);
+        }
+      });
+    });
+
+    // 桌面版視窗大小切換
+    if (this.desktopToggle) {
+      this.desktopToggle.addEventListener('click', () => {
+        document.body.classList.toggle('expanded-desktop-mode');
+        const isExpanded = document.body.classList.contains('expanded-desktop-mode');
+        this.desktopToggle.innerHTML = isExpanded 
+          ? `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="20" x="5" y="2" rx="2"/></svg> 手機比例預覽`
+          : `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="5" rx="2"/></svg> 寬螢幕全覽`;
+      });
+    }
+
+    // 回憶字數計算
+    if (this.memoryTextarea) {
+      this.memoryTextarea.addEventListener('input', () => {
+        this.charCount.textContent = `${this.memoryTextarea.value.length} / 500`;
+      });
+    }
+
+    // 靈感詞快速填入
+    this.promptChips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        const promptText = chip.dataset.prompt;
+        if (promptText) {
+          if (this.memoryTextarea.value.trim().length > 0) {
+            this.memoryTextarea.value += `\n${promptText}`;
+          } else {
+            this.memoryTextarea.value = promptText;
+          }
+          this.charCount.textContent = `${this.memoryTextarea.value.length} / 500`;
+          this.memoryTextarea.focus();
+        }
+      });
+    });
+
+    // 儲存回憶
+    if (this.btnSaveMemory) {
+      this.btnSaveMemory.addEventListener('click', () => {
+        this.saveCurrentMemory();
+      });
+    }
+
+    // 點擊彈窗外圍關閉
+    window.addEventListener('click', (e) => {
+      if (e.target === this.listenModal) {
+        this.closeListenModal();
+      }
+      if (e.target === this.memoryModal) {
+        this.closeMemoryModal();
+      }
+    });
+
+    // 彈窗內關閉按鈕
+    document.querySelectorAll('.close-modal-trigger').forEach(btn => {
+      btn.addEventListener('click', () => {
+        this.closeListenModal();
+        this.closeMemoryModal();
+      });
+    });
+  }
+
+  showToast(message) {
+    if (!this.toast) return;
+    this.toastMessage.textContent = message;
+    this.toast.classList.add('show');
+    clearTimeout(this.toastTimer);
+    this.toastTimer = setTimeout(() => {
+      this.toast.classList.remove('show');
+    }, 2400);
+  }
+
+  updateBadges() {
+    if (this.favCountBadge) {
+      this.favCountBadge.textContent = this.favorites.length;
+      this.favCountBadge.style.display = this.favorites.length > 0 ? 'flex' : 'none';
+    }
+    if (this.memoryCountBadge) {
+      const memoryCount = Object.keys(this.memories).length;
+      this.memoryCountBadge.textContent = memoryCount;
+      this.memoryCountBadge.style.display = memoryCount > 0 ? 'flex' : 'none';
+    }
+  }
+
+  switchTab(tab) {
+    this.activeTab = tab;
+    // 重設個別篩選（避免卡在特定條件下跳轉無結果）
+    if (tab === 'time_machine') {
+      this.selectedArtistId = null;
+    }
+
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.classList.toggle('active', item.dataset.tab === tab);
+    });
+
+    this.render();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  toggleFavorite(songId) {
+    const index = this.favorites.indexOf(songId);
+    if (index > -1) {
+      this.favorites.splice(index, 1);
+      this.showToast('已從我的最愛移除');
+    } else {
+      this.favorites.push(songId);
+      this.showToast('❤️ 已珍藏至我的青春歌單');
+    }
+    this.saveFavorites();
+    this.render();
+  }
+
+  // 開啟播放對話框 (導向合法串流)
+  openListenModal(song) {
+    this.activeListenSong = song;
+    this.listenModalTitle.textContent = `《${song.title}》`;
+    this.listenModalArtist.textContent = `${song.artist} ・ ${song.year || song.decade}`;
+
+    const query = encodeURIComponent(`${song.title} ${song.artist}`);
+    
+    // 合法官方平台直接搜尋深層連結
+    this.linkYoutube.href = `https://www.youtube.com/results?search_query=${query}`;
+    this.linkSpotify.href = `https://open.spotify.com/search/${query}`;
+    this.linkAppleMusic.href = `https://music.apple.com/tw/search?term=${query}`;
+
+    this.listenModal.classList.add('active');
+  }
+
+  closeListenModal() {
+    this.listenModal.classList.remove('active');
+    this.activeListenSong = null;
+  }
+
+  openListenModalById(songId) {
+    const song = SONGS.find(s => s.id === songId);
+    if (song) this.openListenModal(song);
+  }
+
+  // 開啟回憶編輯
+  openMemoryModal(song) {
+    this.activeMemorySong = song;
+    this.memoryModalTitle.textContent = `《${song.title}》`;
+    this.memoryModalArtist.textContent = `${song.artist} ・ ${song.decade}`;
+
+    const existing = this.memories[song.id];
+    if (existing) {
+      this.memoryTextarea.value = existing.note;
+    } else {
+      this.memoryTextarea.value = '';
+    }
+    this.charCount.textContent = `${this.memoryTextarea.value.length} / 500`;
+
+    this.memoryModal.classList.add('active');
+    setTimeout(() => this.memoryTextarea.focus(), 250);
+  }
+
+  openMemoryModalById(songId) {
+    const song = SONGS.find(s => s.id === songId);
+    if (song) this.openMemoryModal(song);
+  }
+
+  closeMemoryModal() {
+    this.memoryModal.classList.remove('active');
+    this.activeMemorySong = null;
+  }
+
+  saveCurrentMemory() {
+    if (!this.activeMemorySong) return;
+    const text = this.memoryTextarea.value.trim();
+
+    if (text.length === 0) {
+      // 若清空則刪除回憶
+      if (this.memories[this.activeMemorySong.id]) {
+        delete this.memories[this.activeMemorySong.id];
+        this.saveMemories();
+        this.showToast('已刪除此歌曲回憶');
+      }
+    } else {
+      const now = new Date();
+      const dateStr = `${now.getFullYear()}/${String(now.getMonth() + 1).padStart(2, '0')}/${String(now.getDate()).padStart(2, '0')}`;
+      
+      this.memories[this.activeMemorySong.id] = {
+        note: text,
+        date: dateStr
+      };
+      // 自動同時加進最愛
+      if (!this.favorites.includes(this.activeMemorySong.id)) {
+        this.favorites.push(this.activeMemorySong.id);
+        this.saveFavorites();
+      }
+      this.saveMemories();
+      this.showToast('📖 音樂回憶已珍藏在時光機！');
+    }
+
+    this.closeMemoryModal();
+    this.render();
+  }
+
+  deleteMemory(songId) {
+    if (confirm('確定要刪除這段珍貴的音樂回憶嗎？')) {
+      delete this.memories[songId];
+      this.saveMemories();
+      this.showToast('回憶已刪除');
+      this.render();
+    }
+  }
+
+  // 渲染黑膠圖示 SVG
+  generateVinylSvg(seed = '1', style = 'emerald') {
+    const centerColors = {
+      emerald: { bg: '#23412F', border: '#C9A86A', text: '#FBF6EC' },
+      ruby: { bg: '#8A2538', border: '#DFC493', text: '#FBF6EC' },
+      amber: { bg: '#966C2A', border: '#FFE4A0', text: '#FBF6EC' },
+      navy: { bg: '#243E54', border: '#A5C8E5', text: '#FBF6EC' }
+    };
+    const c = centerColors[style] || centerColors.emerald;
+
+    return `
+      <svg class="song-vinyl-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <!-- 黑膠唱片盤身 -->
+        <circle cx="50" cy="50" r="48" fill="#151715" stroke="#2B302C" stroke-width="2"/>
+        <circle cx="50" cy="50" r="44" fill="none" stroke="#252A26" stroke-width="0.75" opacity="0.8"/>
+        <circle cx="50" cy="50" r="40" fill="none" stroke="#1D221E" stroke-width="0.75" opacity="0.9"/>
+        <circle cx="50" cy="50" r="36" fill="none" stroke="#282F2A" stroke-width="0.75" opacity="0.7"/>
+        <circle cx="50" cy="50" r="32" fill="none" stroke="#202621" stroke-width="0.75" opacity="0.8"/>
+        <circle cx="50" cy="50" r="28" fill="none" stroke="#2A322C" stroke-width="0.75" opacity="0.7"/>
+        
+        <!-- 黑膠反光光澤 (高級質感微光) -->
+        <path d="M 16 22 A 46 46 0 0 1 84 22 L 50 50 Z" fill="white" opacity="0.04"/>
+        <path d="M 84 78 A 46 46 0 0 1 16 78 L 50 50 Z" fill="white" opacity="0.04"/>
+
+        <!-- 唱片中心標籤紙 -->
+        <circle cx="50" cy="50" r="19" fill="${c.bg}" stroke="${c.border}" stroke-width="1.5"/>
+        <circle cx="50" cy="50" r="17" fill="none" stroke="${c.border}" stroke-width="0.5" stroke-dasharray="2,2"/>
+        
+        <!-- 復古字樣與年代星芒 -->
+        <text x="50" y="47" font-size="6" fill="${c.border}" font-family="serif" text-anchor="middle" letter-spacing="1">YOUTH</text>
+        <circle cx="50" cy="50" r="3.5" fill="#FBF6EC" stroke="#151715" stroke-width="1.2"/>
+        <text x="50" y="58" font-size="5" fill="${c.border}" font-family="sans-serif" text-anchor="middle">33 RPM</text>
+      </svg>
+    `;
+  }
+
+  // 渲染歌曲卡片
+  renderSongCard(song) {
+    const isFav = this.favorites.includes(song.id);
+    const memory = this.memories[song.id];
+    
+    // 依年份或類別挑選黑膠樣式
+    const styleType = song.decade === '1970s' ? 'amber' : (song.decade === '1980s' ? 'ruby' : 'emerald');
+    const vinylSvg = this.generateVinylSvg(song.id, styleType);
+
+    return `
+      <div class="song-card" data-song-id="${song.id}">
+        <div class="song-card-header">
+          <div class="song-vinyl-graphic" title="點擊聆聽此歌曲" onclick="window.app.openListenModalById('${song.id}')">
+            ${vinylSvg}
+          </div>
+          <div class="song-info-wrap">
+            <div class="song-title-row">
+              <h3 class="song-title">${song.title}</h3>
+              <span class="song-decade-pill">${song.year || song.decade}</span>
+            </div>
+            <div class="song-artist-decade">
+              <span class="song-artist-name">${song.artist}</span>
+              <span>・</span>
+              <span>${song.category === 'mandarin' ? '華語經典' : '西洋經典'}</span>
+            </div>
+          </div>
+        </div>
+
+        ${song.quote ? `<div class="song-quote">「${song.quote}」</div>` : ''}
+
+        ${memory ? `
+          <div class="user-memory-preview">
+            <span class="memory-preview-icon">📖</span>
+            <div class="memory-preview-text">
+              <strong>我的時光筆記：</strong>
+              <span>${memory.note}</span>
+              <div class="memory-preview-date">記錄於 ${memory.date}</div>
+            </div>
+          </div>
+        ` : ''}
+
+        <div class="song-card-actions">
+          <div class="left-actions">
+            <button class="btn-icon-action ${isFav ? 'active-favorite' : ''}" 
+                    title="${isFav ? '取消收藏' : '加入我的最愛'}" 
+                    onclick="window.app.toggleFavorite('${song.id}')">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="${isFav ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2">
+                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+              </svg>
+            </button>
+            <button class="btn-memory-note ${memory ? 'has-memory' : ''}" 
+                    title="寫下這首歌讓你想起的回憶" 
+                    onclick="window.app.openMemoryModalById('${song.id}')">
+              <span>${memory ? '✏️ 編輯回憶' : '✍️ 這首歌讓我想到…'}</span>
+            </button>
+          </div>
+          <button class="btn-listen-primary" onclick="window.app.openListenModalById('${song.id}')">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="5 3 19 12 5 21 5 3"/>
+            </svg>
+            去聽這首歌
+          </button>
+        </div>
+      </div>
+    `;
+  }
+
+  // 渲染無歌曲搜尋時的串流備案卡片
+  renderSearchFallbackCard(keyword) {
+    const q = encodeURIComponent(keyword || '經典老歌');
+    const ytUrl = `https://www.youtube.com/results?search_query=${q}`;
+    const spUrl = `https://open.spotify.com/search/${q}`;
+    const apUrl = `https://music.apple.com/tw/search?term=${q}`;
+
+    return `
+      <div class="empty-search-fallback">
+        <div class="fallback-icon">📻</div>
+        <h4 class="fallback-title">找不到「${keyword || ''}」嗎？</h4>
+        <p class="fallback-desc">
+          青春浩瀚，記憶中的旋律都在官方音樂資料庫中。<br>
+          直接前往您喜愛的正版音樂平台搜尋聆聽：
+        </p>
+        <div class="fallback-platforms">
+          <a class="platform-search-btn btn-yt" href="${ytUrl}" target="_blank" rel="noopener">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            到 YouTube 搜尋「${keyword}」
+          </a>
+          <a class="platform-search-btn btn-spotify" href="${spUrl}" target="_blank" rel="noopener">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+            到 Spotify 搜尋「${keyword}」
+          </a>
+          <a class="platform-search-btn btn-apple" href="${apUrl}" target="_blank" rel="noopener">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.62-.75 1.04-1.8 0.92-2.85-.9.04-2 .6-2.65 1.35-.58.66-1.09 1.73-.95 2.76 1.01.08 2.06-.51 2.68-1.26z"/></svg>
+            到 Apple Music 搜尋「${keyword}」
+          </a>
+        </div>
+      </div>
+    `;
+  }
+
+  // 渲染【時光機】首頁
+  renderTimeMachineTab() {
+    // 取得推薦歌曲：根據所選年代與心情
+    let songsToDisplay = [...SONGS];
+
+    if (this.selectedDecade) {
+      songsToDisplay = songsToDisplay.filter(s => s.decade === this.selectedDecade);
+    }
+    if (this.selectedCategory !== 'all') {
+      songsToDisplay = songsToDisplay.filter(s => s.category === this.selectedCategory);
+    }
+    if (this.selectedMood) {
+      songsToDisplay = songsToDisplay.filter(s => s.moods && s.moods.includes(this.selectedMood));
+    }
+
+    const currentMoodObj = MOODS.find(m => m.id === this.selectedMood);
+
+    return `
+      <!-- 首頁品牌標題與核心靈魂精神 -->
+      <header class="magazine-header">
+        <div class="brand-badge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+            <circle cx="12" cy="12" r="10"/>
+          </svg>
+          RETRO MUSIC ARCHIVE
+        </div>
+        <h1 class="app-title">青春音樂時光機</h1>
+        <div class="app-subtitle-box">
+          <p class="app-subtitle">
+            「青春沒有消失，<br>只是有些歌很久沒播放了。」
+          </p>
+        </div>
+      </header>
+
+      <!-- 快速即時搜尋框 -->
+      <div class="search-container">
+        <div class="search-input-wrapper">
+          <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+          </svg>
+          <input type="text" 
+                 class="search-input" 
+                 placeholder="想起哪位歌手或哪首歌？" 
+                 value="${this.searchQuery}" 
+                 onfocus="window.app.switchTab('explore')"
+          />
+        </div>
+      </div>
+
+      <!-- 年代時光大按鈕 -->
+      <section>
+        <div class="section-header">
+          <div class="section-title-wrap">
+            <div class="section-bullet"></div>
+            <h2 class="section-title">今天，想回到哪一段時光？</h2>
+          </div>
+        </div>
+
+        <div class="decades-grid">
+          ${DECADES.map(d => `
+            <div class="decade-card ${this.selectedDecade === d.id ? 'active' : ''}" 
+                 onclick="window.app.toggleDecade('${d.id}')">
+              <div class="decade-year">${d.label}</div>
+              <div class="decade-label">${d.title.split('・')[1]}</div>
+              <div class="decade-badge">${d.id === '1970s' ? '民歌・黑膠' : (d.id === '1980s' ? '卡帶・輝煌' : 'CD・黃金')}</div>
+            </div>
+          `).join('')}
+        </div>
+
+        <!-- 華語經典 / 西洋經典 / 我的最愛 篩選列 -->
+        <div class="quick-filter-bar">
+          <button class="filter-pill ${this.selectedCategory === 'all' && !this.selectedDecade ? 'active' : ''}" 
+                  onclick="window.app.setQuickFilter('all')">
+            全部經典
+          </button>
+          <button class="filter-pill ${this.selectedCategory === 'mandarin' ? 'active' : ''}" 
+                  onclick="window.app.setQuickFilter('mandarin')">
+            華語經典
+          </button>
+          <button class="filter-pill ${this.selectedCategory === 'western' ? 'active' : ''}" 
+                  onclick="window.app.setQuickFilter('western')">
+            西洋經典
+          </button>
+          <button class="filter-pill heart-pill" 
+                  onclick="window.app.switchTab('favorites')">
+            ❤️ 我的最愛 (${this.favorites.length})
+          </button>
+        </div>
+      </section>
+
+      <!-- 心情選歌 (六大情境選項) -->
+      <section style="margin-top: 18px;">
+        <div class="section-header">
+          <div class="section-title-wrap">
+            <div class="section-bullet"></div>
+            <h2 class="section-title">今天是什麼心情？</h2>
+          </div>
+          ${this.selectedMood ? `
+            <a class="section-link" onclick="window.app.clearMood()">重設心情</a>
+          ` : ''}
+        </div>
+
+        <div class="mood-grid">
+          ${MOODS.map(m => `
+            <div class="mood-card ${this.selectedMood === m.id ? 'active' : ''}" 
+                 onclick="window.app.toggleMood('${m.id}')">
+              <div class="mood-icon-wrap">${m.icon}</div>
+              <div class="mood-label">${m.label}</div>
+            </div>
+          `).join('')}
+        </div>
+      </section>
+
+      <!-- 歌手入口推薦 (Carpenters, Rod Stewart, 蔡琴, 陳淑樺...) -->
+      <section style="margin-top: 10px;">
+        <div class="section-header">
+          <div class="section-title-wrap">
+            <div class="section-bullet"></div>
+            <h2 class="section-title">時光歌手入口</h2>
+          </div>
+          <a class="section-link" onclick="window.app.switchTab('explore')">查看全部</a>
+        </div>
+
+        <div class="artist-scroll-row">
+          ${ARTISTS.slice(0, 6).map(a => `
+            <div class="artist-entry-card" onclick="window.app.filterByArtist('${a.id}')">
+              <div class="vinyl-mini-avatar">
+                <div class="vinyl-mini-center vinyl-center-${a.badgeStyle}">
+                  ${a.name.slice(0, 1)}
+                </div>
+              </div>
+              <div class="artist-name">${a.name}</div>
+              <div class="artist-category-tag">${a.category === 'mandarin' ? '華語' : '西洋'}・${a.decade}</div>
+            </div>
+          `).join('')}
+        </div>
+      </section>
+
+      <!-- 精選推薦歌曲列表 -->
+      <section style="margin-top: 18px;">
+        <div class="section-header">
+          <div class="section-title-wrap">
+            <div class="section-bullet"></div>
+            <h2 class="section-title">
+              ${this.selectedMood ? `${currentMoodObj.icon} ${currentMoodObj.label} 的推薦歌曲` : (this.selectedDecade ? `${this.selectedDecade} 時光金曲` : '為您推薦的青春旋律')}
+            </h2>
+          </div>
+          <span class="section-desc">${songsToDisplay.length} 首歌曲</span>
+        </div>
+
+        <div class="song-cards-list">
+          ${songsToDisplay.slice(0, 10).map(s => this.renderSongCard(s)).join('')}
+        </div>
+
+        ${songsToDisplay.length > 10 ? `
+          <div style="text-align: center; margin-top: 20px;">
+            <button class="btn-empty-action" onclick="window.app.switchTab('explore')">探索更多歌曲庫 (${SONGS.length} 首)</button>
+          </div>
+        ` : ''}
+      </section>
+    `;
+  }
+
+  getFilteredExploreSongs() {
+    return SONGS.filter(song => {
+      // 搜尋條件
+      if (this.searchQuery.trim().length > 0) {
+        const q = this.searchQuery.toLowerCase().trim();
+        const matchTitle = song.title.toLowerCase().includes(q);
+        const matchArtist = song.artist.toLowerCase().includes(q);
+        const matchDecade = song.decade.toLowerCase().includes(q);
+        const matchYear = (song.year || '').includes(q);
+        if (!matchTitle && !matchArtist && !matchDecade && !matchYear) return false;
+      }
+
+      // 年代條件
+      if (this.selectedDecade && song.decade !== this.selectedDecade) return false;
+
+      // 語系分類條件
+      if (this.selectedCategory !== 'all' && song.category !== this.selectedCategory) return false;
+
+      // 歌手條件
+      if (this.selectedArtistId && song.artistId !== this.selectedArtistId) return false;
+
+      return true;
+    });
+  }
+
+  renderExploreResults() {
+    const filtered = this.getFilteredExploreSongs();
+    const activeArtist = ARTISTS.find(a => a.id === this.selectedArtistId);
+
+    return `
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <div class="section-bullet"></div>
+          <h3 class="section-title">歌曲收錄</h3>
+        </div>
+        <span class="section-desc">共 ${filtered.length} 首</span>
+      </div>
+
+      ${filtered.length > 0 ? `
+        <div class="song-cards-list">
+          ${filtered.map(s => this.renderSongCard(s)).join('')}
+        </div>
+        <!-- 底部探索更多按鈕：直連合法平台搜尋 -->
+        ${this.renderSearchFallbackCard(this.searchQuery || (activeArtist ? activeArtist.name : '1970~1990經典老歌'))}
+      ` : `
+        <!-- 搜尋無結果時的合法串流引導 -->
+        ${this.renderSearchFallbackCard(this.searchQuery)}
+      `}
+    `;
+  }
+
+  // 渲染【找歌曲】分類與搜尋全覽
+  renderExploreTab() {
+    const activeArtist = ARTISTS.find(a => a.id === this.selectedArtistId);
+
+    return `
+      <div class="magazine-header" style="padding-bottom: 8px;">
+        <div class="brand-badge">MUSIC DISCOVERY</div>
+        <h2 class="app-title" style="font-size: 1.6rem;">找尋回憶中的歌曲</h2>
+        <p class="app-subtitle" style="font-size: 0.88rem;">輸入歌名、歌手或年代，重溫深藏心底的旋律</p>
+      </div>
+
+      <!-- 搜尋輸入框 -->
+      <div class="search-container">
+        <div class="search-input-wrapper">
+          <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+          </svg>
+          <input type="text" 
+                 id="exploreSearchInput"
+                 class="search-input" 
+                 placeholder="搜尋歌手、歌曲、年份或歌詞…" 
+                 value="${this.searchQuery}" 
+                 oninput="window.app.handleSearchInput(this.value)"
+          />
+          <button id="searchClearBtn" class="search-clear-btn ${this.searchQuery ? 'visible' : ''}" onclick="window.app.clearSearch()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- 快速篩選標籤群 -->
+      <div class="quick-filter-bar">
+        <button class="filter-pill ${this.selectedCategory === 'all' && !this.selectedDecade && !this.selectedArtistId ? 'active' : ''}" 
+                onclick="window.app.resetFilters()">
+          全部
+        </button>
+        <button class="filter-pill ${this.selectedCategory === 'mandarin' ? 'active' : ''}" 
+                onclick="window.app.setQuickFilter('mandarin')">
+          華語經典
+        </button>
+        <button class="filter-pill ${this.selectedCategory === 'western' ? 'active' : ''}" 
+                onclick="window.app.setQuickFilter('western')">
+          西洋經典
+        </button>
+        <button class="filter-pill ${this.selectedDecade === '1970s' ? 'active' : ''}" 
+                onclick="window.app.toggleDecade('1970s')">
+          1970s
+        </button>
+        <button class="filter-pill ${this.selectedDecade === '1980s' ? 'active' : ''}" 
+                onclick="window.app.toggleDecade('1980s')">
+          1980s
+        </button>
+        <button class="filter-pill ${this.selectedDecade === '1990s' ? 'active' : ''}" 
+                onclick="window.app.toggleDecade('1990s')">
+          1990s
+        </button>
+      </div>
+
+      <!-- 歌手快捷瀏覽列 -->
+      <section style="margin-top: 14px;">
+        <div class="section-header">
+          <div class="section-title-wrap">
+            <div class="section-bullet"></div>
+            <h3 class="section-title">依歌手探索</h3>
+          </div>
+          ${this.selectedArtistId ? `<a class="section-link" onclick="window.app.clearArtistFilter()">清除歌手</a>` : ''}
+        </div>
+
+        <div class="artist-scroll-row">
+          ${ARTISTS.map(a => `
+            <div class="artist-entry-card ${this.selectedArtistId === a.id ? 'active' : ''}" 
+                 onclick="window.app.filterByArtist('${a.id}')">
+              <div class="vinyl-mini-avatar">
+                <div class="vinyl-mini-center vinyl-center-${a.badgeStyle}">
+                  ${a.name.slice(0, 1)}
+                </div>
+              </div>
+              <div class="artist-name">${a.name}</div>
+              <div class="artist-category-tag">${a.category === 'mandarin' ? '華語' : '西洋'}</div>
+            </div>
+          `).join('')}
+        </div>
+      </section>
+
+      <!-- 歌手簡介橫幅 (若選取特定歌手) -->
+      ${activeArtist ? `
+        <div style="background: var(--bg-card); border: 1px solid var(--pale-gold); border-radius: var(--radius-lg); padding: 16px; margin: 16px 0; box-shadow: var(--shadow-sm);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <h4 style="font-family: var(--font-serif); font-size: 1.15rem; color: var(--deep-green);">${activeArtist.name}</h4>
+            <span class="song-decade-pill">${activeArtist.category === 'mandarin' ? '華語' : '西洋'}・${activeArtist.decade}</span>
+          </div>
+          <p style="font-size: 0.85rem; line-height: 1.6; color: var(--text-secondary); margin-bottom: 8px;">${activeArtist.bio}</p>
+          <div style="font-size: 0.78rem; color: var(--text-tertiary);">代表作品：${activeArtist.signatureTracks.join('、')}</div>
+        </div>
+      ` : ''}
+
+      <!-- 搜尋結果或歌曲列表動態容器 -->
+      <section id="exploreResultsContainer" style="margin-top: 18px;">
+        ${this.renderExploreResults()}
+      </section>
+    `;
+  }
+
+  // 渲染【我的最愛】歌單
+  renderFavoritesTab() {
+    const favSongs = SONGS.filter(s => this.favorites.includes(s.id));
+    let filteredFavs = [...favSongs];
+
+    if (this.selectedCategory !== 'all') {
+      filteredFavs = filteredFavs.filter(s => s.category === this.selectedCategory);
+    }
+    if (this.selectedDecade) {
+      filteredFavs = filteredFavs.filter(s => s.decade === this.selectedDecade);
+    }
+
+    return `
+      <div class="magazine-header" style="padding-bottom: 12px;">
+        <div class="brand-badge" style="color: var(--wine-red); border-color: rgba(138, 37, 56, 0.3);">
+          MY PRIVATE PLAYLIST
+        </div>
+        <h2 class="app-title" style="font-size: 1.7rem;">我的青春歌單</h2>
+        <p class="app-subtitle" style="font-size: 0.88rem;">
+          已珍藏 ${this.favorites.length} 首陪伴人生的經典金曲
+        </p>
+      </div>
+
+      <!-- 分類標籤 (全部收藏 / 華語 / 西洋 / 1970s / 1980s / 1990s) -->
+      <div class="quick-filter-bar">
+        <button class="filter-pill ${this.selectedCategory === 'all' && !this.selectedDecade ? 'active' : ''}" 
+                onclick="window.app.setFavFilter('all', null)">
+          全部收藏 (${favSongs.length})
+        </button>
+        <button class="filter-pill ${this.selectedCategory === 'mandarin' && !this.selectedDecade ? 'active' : ''}" 
+                onclick="window.app.setFavFilter('mandarin', null)">
+          華語
+        </button>
+        <button class="filter-pill ${this.selectedCategory === 'western' && !this.selectedDecade ? 'active' : ''}" 
+                onclick="window.app.setFavFilter('western', null)">
+          西洋
+        </button>
+        <button class="filter-pill ${this.selectedDecade === '1970s' ? 'active' : ''}" 
+                onclick="window.app.setFavFilter('all', '1970s')">
+          1970s
+        </button>
+        <button class="filter-pill ${this.selectedDecade === '1980s' ? 'active' : ''}" 
+                onclick="window.app.setFavFilter('all', '1980s')">
+          1980s
+        </button>
+        <button class="filter-pill ${this.selectedDecade === '1990s' ? 'active' : ''}" 
+                onclick="window.app.setFavFilter('all', '1990s')">
+          1990s
+        </button>
+      </div>
+
+      <section style="margin-top: 18px;">
+        ${filteredFavs.length > 0 ? `
+          <div class="song-cards-list">
+            ${filteredFavs.map(s => this.renderSongCard(s)).join('')}
+          </div>
+        ` : `
+          <div class="empty-state-card">
+            <div class="empty-state-icon">❤️</div>
+            <h3 class="empty-state-title">目前沒有符合的收藏歌曲</h3>
+            <p class="empty-state-desc">在時光機中遇見感動的旋律時，點擊愛心圖示，就能將它保存在這裡。</p>
+            <button class="btn-empty-action" onclick="window.app.switchTab('time_machine')">返回時光機挑選歌曲</button>
+          </div>
+        `}
+      </section>
+    `;
+  }
+
+  // 渲染【我的音樂回憶日記】專屬時間軸
+  renderMemoriesTab() {
+    const memoryKeys = Object.keys(this.memories);
+    const diaryEntries = memoryKeys.map(songId => {
+      const song = SONGS.find(s => s.id === songId);
+      return {
+        songId,
+        song,
+        ...this.memories[songId]
+      };
+    }).filter(entry => entry.song !== undefined);
+
+    return `
+      <!-- 回憶日記頂部雜誌封面風 Banner -->
+      <div class="memory-diary-header">
+        <h2 class="memory-diary-title">
+          <span>📖</span>
+          人生音樂日記
+        </h2>
+        <p class="memory-diary-slogan">
+          每一首老歌，都藏著一段青春。<br>
+          這不只是一份歌單，而是你生命故事的旋律回憶錄。
+        </p>
+        <div class="memory-diary-count-pill">
+          已累積 ${diaryEntries.length} 篇音樂手記
+        </div>
+      </div>
+
+      <!-- 回憶列表 -->
+      <section>
+        ${diaryEntries.length > 0 ? `
+          <div class="memory-journal-list">
+            ${diaryEntries.map(entry => `
+              <div class="memory-journal-card">
+                <div class="memory-journal-top">
+                  <div class="memory-song-title-group">
+                    <span style="font-size: 1.4rem;">📻</span>
+                    <div>
+                      <h3 style="font-family: var(--font-serif); font-size: 1.1rem; color: var(--deep-green); margin-bottom: 2px;">
+                        《${entry.song.title}》
+                      </h3>
+                      <div style="font-size: 0.8rem; color: var(--text-secondary);">
+                        ${entry.song.artist} ・ ${entry.song.year || entry.song.decade}
+                      </div>
+                    </div>
+                  </div>
+                  <button class="btn-listen-primary" style="height: 32px; padding: 0 12px; font-size: 0.78rem;" 
+                          onclick="window.app.openListenModalById('${entry.songId}')">
+                    ▶ 播放
+                  </button>
+                </div>
+
+                <div class="memory-journal-content">
+                  ${entry.note}
+                </div>
+
+                <div class="memory-journal-meta">
+                  <span>筆記時間：${entry.date || '珍藏時光'}</span>
+                  <div class="memory-journal-actions">
+                    <button class="btn-text-action" onclick="window.app.openMemoryModalById('${entry.songId}')">
+                      ✏️ 編輯
+                    </button>
+                    <button class="btn-text-action delete" onclick="window.app.deleteMemory('${entry.songId}')">
+                      🗑️ 刪除
+                    </button>
+                  </div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        ` : `
+          <div class="empty-state-card">
+            <div class="empty-state-icon">✍️</div>
+            <h3 class="empty-state-title">尚未寫下音樂回憶</h3>
+            <p class="empty-state-desc">
+              第一次去英國時常常聽的那首？<br>
+              以前深夜開車時最喜歡的旋律？<br>
+              在任何歌曲卡片點擊「寫下回憶」，為你的時光日記寫下一頁。
+            </p>
+            <button class="btn-empty-action" onclick="window.app.switchTab('time_machine')">前往時光機寫下手記</button>
+          </div>
+        `}
+      </section>
+    `;
+  }
+
+  // 篩選與狀態切換輔助方法
+  toggleDecade(decade) {
+    if (this.selectedDecade === decade) {
+      this.selectedDecade = null;
+    } else {
+      this.selectedDecade = decade;
+    }
+    this.render();
+  }
+
+  setQuickFilter(cat) {
+    this.selectedCategory = cat;
+    this.render();
+  }
+
+  setFavFilter(cat, decade) {
+    this.selectedCategory = cat;
+    this.selectedDecade = decade;
+    this.render();
+  }
+
+  toggleMood(moodId) {
+    if (this.selectedMood === moodId) {
+      this.selectedMood = null;
+    } else {
+      this.selectedMood = moodId;
+    }
+    this.render();
+  }
+
+  clearMood() {
+    this.selectedMood = null;
+    this.render();
+  }
+
+  filterByArtist(artistId) {
+    this.selectedArtistId = artistId;
+    this.switchTab('explore');
+  }
+
+  clearArtistFilter() {
+    this.selectedArtistId = null;
+    this.render();
+  }
+
+  handleSearchInput(val) {
+    this.searchQuery = val;
+    const clearBtn = document.getElementById('searchClearBtn');
+    if (clearBtn) {
+      clearBtn.classList.toggle('visible', val.trim().length > 0);
+    }
+    const resultsContainer = document.getElementById('exploreResultsContainer');
+    if (resultsContainer) {
+      resultsContainer.innerHTML = this.renderExploreResults();
+    } else {
+      this.render();
+    }
+  }
+
+  clearSearch() {
+    this.searchQuery = '';
+    const input = document.getElementById('exploreSearchInput');
+    if (input) {
+      input.value = '';
+      input.focus();
+    }
+    const clearBtn = document.getElementById('searchClearBtn');
+    if (clearBtn) {
+      clearBtn.classList.remove('visible');
+    }
+    const resultsContainer = document.getElementById('exploreResultsContainer');
+    if (resultsContainer) {
+      resultsContainer.innerHTML = this.renderExploreResults();
+    } else {
+      this.render();
+    }
+  }
+
+  resetFilters() {
+    this.selectedCategory = 'all';
+    this.selectedDecade = null;
+    this.selectedArtistId = null;
+    this.searchQuery = '';
+    this.render();
+  }
+
+  // 核心渲染主流程
+  render() {
+    this.updateBadges();
+
+    if (!this.mainContent) return;
+
+    if (this.activeTab === 'time_machine') {
+      this.mainContent.innerHTML = this.renderTimeMachineTab();
+    } else if (this.activeTab === 'explore') {
+      this.mainContent.innerHTML = this.renderExploreTab();
+    } else if (this.activeTab === 'favorites') {
+      this.mainContent.innerHTML = this.renderFavoritesTab();
+    } else if (this.activeTab === 'memories') {
+      this.mainContent.innerHTML = this.renderMemoriesTab();
+    }
+  }
+}
+
+// 應用程式初始化
+window.addEventListener('DOMContentLoaded', () => {
+  window.app = new YouthMusicApp();
+});
+
+</script>
 
   <!-- PWA Service Worker 註冊 -->
   <script>
