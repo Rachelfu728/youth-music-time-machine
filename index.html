@@ -1511,6 +1511,311 @@ body.expanded-desktop-mode .bottom-sheet {
   font-weight: 600;
 }
 
+
+/* ==========================================================================
+   老式收音機調頻 & 靈感曲庫 UI
+   ========================================================================== */
+
+/* 收音機隨機調頻按鈕 */
+.radio-tuner-card {
+  margin: 16px 0 20px 0;
+  background: linear-gradient(135deg, #1C3325 0%, #2A4D38 100%);
+  border: 1px solid var(--pale-gold);
+  border-radius: var(--radius-xl);
+  padding: 16px 18px;
+  color: #FFF;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 8px 24px rgba(28, 51, 37, 0.25);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.radio-tuner-card:active {
+  transform: scale(0.98);
+}
+
+.radio-tuner-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(201, 168, 106, 0.2), transparent);
+  animation: radioShimmer 3.5s infinite;
+}
+
+@keyframes radioShimmer {
+  0% { left: -100%; }
+  60% { left: 200%; }
+  100% { left: 200%; }
+}
+
+.radio-tuner-info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.radio-dial-icon {
+  width: 44px;
+  height: 44px;
+  background: rgba(201, 168, 106, 0.2);
+  border: 1px solid var(--pale-gold);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+
+.radio-tuner-title {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  font-weight: 700;
+  color: #F6F0E4;
+  margin-bottom: 2px;
+}
+
+.radio-tuner-desc {
+  font-size: 0.75rem;
+  color: #DFC493;
+}
+
+.radio-tune-btn {
+  background: var(--pale-gold);
+  color: #193022;
+  border: none;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+/* 靈感庫入口橫幅 */
+.inspiration-banner-card {
+  margin: 12px 0 20px 0;
+  background: #FFF;
+  border: 1px solid var(--gold-border);
+  border-radius: var(--radius-lg);
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: var(--shadow-sm);
+}
+
+.inspiration-banner-card:active {
+  background: var(--bg-card-subtle);
+  transform: scale(0.99);
+}
+
+.inspiration-banner-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.inspiration-star-icon {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.inspiration-banner-title {
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--deep-green);
+}
+
+.inspiration-banner-sub {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.inspiration-open-btn {
+  background: var(--deep-green-surface);
+  color: var(--deep-green);
+  border: 1px solid rgba(35, 65, 47, 0.2);
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* 收音機調頻彈窗視覺 */
+.radio-display-dial {
+  background: #111A14;
+  border: 2px solid #3A5A44;
+  border-radius: var(--radius-md);
+  padding: 16px;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 2px 10px rgba(0,0,0,0.6);
+}
+
+.radio-freq-scale {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  color: #C9A86A;
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+}
+
+.radio-needle-track {
+  height: 24px;
+  background: rgba(201, 168, 106, 0.08);
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.radio-needle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: #FF4757;
+  box-shadow: 0 0 8px #FF4757;
+  left: 65%;
+  transition: left 0.6s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+.radio-needle.tuning {
+  animation: needleScan 0.8s ease-in-out;
+}
+
+@keyframes needleScan {
+  0% { left: 10%; }
+  40% { left: 90%; }
+  75% { left: 25%; }
+  100% { left: 65%; }
+}
+
+.radio-station-text {
+  text-align: center;
+  font-size: 0.75rem;
+  color: #A3B899;
+  margin-top: 8px;
+  letter-spacing: 0.5px;
+}
+
+/* 靈感庫主題標籤 */
+.inspiration-theme-pills {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 4px 0 14px 0;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.inspiration-theme-pills::-webkit-scrollbar {
+  display: none;
+}
+
+.theme-pill-btn {
+  background: var(--bg-card);
+  border: 1px solid rgba(35, 65, 47, 0.15);
+  color: var(--text-secondary);
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.theme-pill-btn.active {
+  background: var(--deep-green);
+  color: #FFF;
+  border-color: var(--deep-green);
+  font-weight: 600;
+}
+
+.inspiration-song-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  background: #FFF;
+  border: 1px solid rgba(35, 65, 47, 0.08);
+  border-radius: var(--radius-md);
+  margin-bottom: 10px;
+  transition: all 0.2s;
+}
+
+.inspiration-song-info {
+  flex: 1;
+  min-width: 0;
+  margin-right: 12px;
+}
+
+.inspiration-song-title {
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--deep-green);
+  margin-bottom: 2px;
+}
+
+.inspiration-song-meta {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.inspiration-quote-snippet {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  margin-top: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.inspiration-add-btn {
+  background: var(--deep-green);
+  color: #FFF;
+  border: none;
+  padding: 7px 14px;
+  border-radius: var(--radius-full);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.inspiration-add-btn.added {
+  background: rgba(35, 65, 47, 0.1);
+  color: var(--deep-green);
+  border: 1px solid rgba(35, 65, 47, 0.25);
+}
+
+/* 靈感庫列表容器 (可捲動) */
+.inspiration-list-scroll {
+  max-height: 52vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-right: 2px;
+}
+
   </style>
 </head>
 <body>
@@ -1579,19 +1884,36 @@ body.expanded-desktop-mode .bottom-sheet {
     </div>
   </div>
 
+  <!-- 老式收音機調頻彈窗 -->
+  <div class="modal-overlay" id="radioModal">
+    <div class="modal-backdrop"></div>
+    <div class="modal-card" id="radioModalContent">
+      <!-- 動態渲染 -->
+    </div>
+  </div>
+
+  <!-- 時光靈感庫彈窗 (一鍵收錄免打字) -->
+  <div class="modal-overlay" id="inspirationModal">
+    <div class="modal-backdrop"></div>
+    <div class="modal-card bottom-sheet" id="inspirationModalContent">
+      <!-- 動態渲染 -->
+    </div>
+  </div>
+
   <!-- 操作吐司訊息提示 -->
   <div class="toast-notification" id="toast"></div>
 
   <!-- 資料庫 -->
   <script>
 /**
- * 青春音樂時光機 - 經典歌曲資料庫
+ * 青春音樂時光機 - 經典歌曲資料庫與靈感曲庫
  * 
- * 設計原則：
- * 1. 結構清晰，便於日後隨時新增歌手與歌曲
- * 2. 涵蓋 1970s, 1980s, 1990s 華語與西洋經典
- * 3. 配合六大心情模式
- * 4. 版權合規：不儲存音訊檔案，僅提供官方授權合法平台導向資訊
+ * 包含：
+ * 1. 核心預載經典歌曲 (SONGS)
+ * 2. 時光靈感候選庫 (INSPIRATION_POOL) - 供使用者一鍵收錄，完全免打字
+ * 3. 歌手入口 (ARTISTS)
+ * 4. 六大情境 (MOODS)
+ * 5. 年代設定 (DECADES)
  */
 
 const MOODS = [
@@ -1610,7 +1932,7 @@ const DECADES = [
 ];
 
 const ARTISTS = [
-  // 華語歌手
+  // 華語代表歌手
   {
     id: 'tsai-chin',
     name: '蔡琴',
@@ -1635,7 +1957,7 @@ const ARTISTS = [
     category: 'mandarin',
     decade: '1970s',
     bio: '華語樂壇永恆的傳奇，溫婉純淨的歌聲傳遍全球華人世界，定義了一個時代的溫柔。',
-    signatureTracks: ['月亮代表我的心', '小城故事', '甜蜜蜜', '千言萬語'],
+    signatureTracks: ['月亮代表我的心', '小城故事', '甜蜜蜜', '我只在乎你'],
     badgeStyle: 'rose'
   },
   {
@@ -1653,8 +1975,80 @@ const ARTISTS = [
     category: 'mandarin',
     decade: '1990s',
     bio: '「歌神」張學友，動人深情的唱腔與無可匹敵的感染力，席捲整個九十年代華語樂壇。',
-    signatureTracks: ['吻別', '一千個傷心的理由', '情書', '祝福'],
+    signatureTracks: ['吻別', '一千個傷心的理由', '情書', '祝福', '每天愛你多一些'],
     badgeStyle: 'emerald'
+  },
+  {
+    id: 'leslie-cheung',
+    name: '張國榮',
+    category: 'mandarin',
+    decade: '1980s',
+    bio: '一代巨星「哥哥」張國榮，無可挑剔的藝術氣質與深情歌聲，是幾代人心中永遠的白月光。',
+    signatureTracks: ['風繼續吹', 'Monica', '追', '當愛已成往事', '倩女幽魂'],
+    badgeStyle: 'rose'
+  },
+  {
+    id: 'anita-mui',
+    name: '梅艷芳',
+    category: 'mandarin',
+    decade: '1980s',
+    bio: '「香港的女兒」，百變天后梅艷芳以豪邁俠骨與深情低音，唱盡人間滄桑與至情至性。',
+    signatureTracks: ['女人花', '一生愛你千百回', '親密愛人', '夕陽之歌'],
+    badgeStyle: 'gold'
+  },
+  {
+    id: 'jonathan-lee',
+    name: '李宗盛',
+    category: 'mandarin',
+    decade: '1980s',
+    bio: '百萬唱片教父，自彈自唱寫盡人生百態，他的每一句歌詞都是成年人的真心話。',
+    signatureTracks: ['凡人歌', '鬼迷心竅', '山丘', '給自己的歌'],
+    badgeStyle: 'indigo'
+  },
+  {
+    id: 'wakin-chau',
+    name: '周華健',
+    category: 'mandarin',
+    decade: '1990s',
+    bio: '「國民歌王」，陽光溫暖的嗓音與膾炙人口的金曲，陪伴過每位遊子與摯友的聚散離合。',
+    signatureTracks: ['朋友', '讓我歡喜讓我憂', '花心', '明天我要嫁給你'],
+    badgeStyle: 'emerald'
+  },
+  {
+    id: 'dave-wang',
+    name: '王傑',
+    category: 'mandarin',
+    decade: '1980s',
+    bio: '孤鷹浪子，滄桑憂鬱的嗓音唱出無數失意者的心聲，一出道即創下奇蹟般的唱片銷量。',
+    signatureTracks: ['一場遊戲一場夢', '安妮', '是否我真的一無所有'],
+    badgeStyle: 'indigo'
+  },
+  {
+    id: 'andy-lau',
+    name: '劉德華',
+    category: 'mandarin',
+    decade: '1990s',
+    bio: '四大天王之首，勤奮謙遜的藝人典範，深情厚重的顫音造就了無數傳唱大街小巷的名曲。',
+    signatureTracks: ['忘情水', '一起走過的日子', '謝謝你的愛', '冰雨'],
+    badgeStyle: 'emerald'
+  },
+  {
+    id: 'sandy-lam',
+    name: '林憶蓮',
+    category: 'mandarin',
+    decade: '1990s',
+    bio: '都會女聲天花板，細膩精緻的情感處理與驚人唱功，每一首情歌都直擊靈魂深處。',
+    signatureTracks: ['至少還有你', '為你我受冷風吹', '傷痕', '愛上一個不回家的人'],
+    badgeStyle: 'rose'
+  },
+  {
+    id: 'chyi-chin',
+    name: '齊秦',
+    category: 'mandarin',
+    decade: '1980s',
+    bio: '曠野匹狼，清澈高亢、飄逸孤獨的嗓音，開拓了華語抒情搖滾的嶄新格局。',
+    signatureTracks: ['大約在冬季', '原來的我', '狼', '外面的世界'],
+    badgeStyle: 'indigo'
   },
   {
     id: 'faye-wong',
@@ -1662,7 +2056,7 @@ const ARTISTS = [
     category: 'mandarin',
     decade: '1990s',
     bio: '空靈空前、極具個人魅力的時代天后，將西洋另類流行融入華語樂壇，風格獨樹一幟。',
-    signatureTracks: ['我願意', '紅豆', '執迷不悔', '約定'],
+    signatureTracks: ['我願意', '紅豆', '執迷不悔', '約定', '天空'],
     badgeStyle: 'gold'
   },
   {
@@ -1684,7 +2078,7 @@ const ARTISTS = [
     badgeStyle: 'rose'
   },
 
-  // 西洋歌手
+  // 西洋代表歌手
   {
     id: 'carpenters',
     name: 'Carpenters (木匠兄妹)',
@@ -1720,6 +2114,24 @@ const ARTISTS = [
     bio: '美式鄉村搖滾的巔峰代表，迷人的吉他編排與細膩和聲，凝結了加州陽光與浪漫情懷。',
     signatureTracks: ['Hotel California', 'Desperado', 'Take It Easy', "I Can't Tell You Why"],
     badgeStyle: 'indigo'
+  },
+  {
+    id: 'queen',
+    name: 'Queen (皇后合唱團)',
+    category: 'western',
+    decade: '1970s',
+    bio: '佛萊迪・摩克瑞傳奇主唱，融合歌劇與華麗搖滾的史詩樂團，擁有跨越世紀的感染力。',
+    signatureTracks: ['Bohemian Rhapsody', 'We Will Rock You', 'Somebody to Love', 'Radio Ga Ga'],
+    badgeStyle: 'gold'
+  },
+  {
+    id: 'abba',
+    name: 'ABBA (阿巴合唱團)',
+    category: 'western',
+    decade: '1970s',
+    bio: '瑞典國寶級流行傳奇，極致悅耳的旋律與和聲編排，定義了歐洲流行樂的黃金準則。',
+    signatureTracks: ['Dancing Queen', 'Mamma Mia', 'The Winner Takes It All', 'Waterloo'],
+    badgeStyle: 'emerald'
   },
   {
     id: 'michael-jackson',
@@ -1759,10 +2171,9 @@ const ARTISTS = [
   }
 ];
 
+// 核心經典歌曲 (預設在 App 中)
 const SONGS = [
-  // -------------------------------------------------------------
-  // 1970s 經典歌曲
-  // -------------------------------------------------------------
+  // 1970s
   {
     id: 's01',
     title: '被遺忘的時光',
@@ -1920,9 +2331,7 @@ const SONGS = [
     albumNote: '鋼琴與弦樂交織出的深沉自省，撫慰迷惘孤獨的靈魂。'
   },
 
-  // -------------------------------------------------------------
-  // 1980s 經典歌曲
-  // -------------------------------------------------------------
+  // 1980s
   {
     id: 's14',
     title: '讀你',
@@ -2104,9 +2513,7 @@ const SONGS = [
     albumNote: '鋼琴前奏一出全場沸騰，搖滾抒情史詩名篇。'
   },
 
-  // -------------------------------------------------------------
-  // 1990s 經典歌曲
-  // -------------------------------------------------------------
+  // 1990s
   {
     id: 's29',
     title: '問',
@@ -2253,13 +2660,445 @@ const SONGS = [
   }
 ];
 
-// 掛載至 window，確保任何載入模式皆相容
+// 時光靈感候選庫 (供使用者一鍵收錄，完全免打字)
+const INSPIRATION_POOL = [
+  // ── 主題一：滾石與飛碟黃金年華 ──
+  {
+    id: 'insp_01',
+    title: '凡人歌',
+    artist: '李宗盛',
+    artistId: 'jonathan-lee',
+    decade: '1990s',
+    year: '1991',
+    category: 'mandarin',
+    theme: 'rock_ufo',
+    themeLabel: '滾石飛碟傳奇',
+    moods: ['driving', 'past_self'],
+    quote: '你我皆凡人，生在人世間。終日奔波苦，一刻不得閒。',
+    albumNote: '電視劇《碧海情天》主題曲，李宗盛看透世事的經典自嘲之作。'
+  },
+  {
+    id: 'insp_02',
+    title: '朋友',
+    artist: '周華健',
+    artistId: 'wakin-chau',
+    decade: '1990s',
+    year: '1997',
+    category: 'mandarin',
+    theme: 'rock_ufo',
+    themeLabel: '滾石飛碟傳奇',
+    moods: ['past_self', 'nostalgia'],
+    quote: '朋友一生一起走，那些日子不再有。一句話，一輩子，一生情，一杯酒。',
+    albumNote: '華語畢業歌與聚會永恆主題曲，唱出兄弟好友一生的約定。'
+  },
+  {
+    id: 'insp_03',
+    title: '讓我歡喜讓我憂',
+    artist: '周華健',
+    artistId: 'wakin-chau',
+    decade: '1990s',
+    year: '1991',
+    category: 'mandarin',
+    theme: 'rock_ufo',
+    themeLabel: '滾石飛碟傳奇',
+    moods: ['nostalgia', 'quiet_afternoon'],
+    quote: '就這樣拋開我，如果說你要離開我。你明知我會藉酒澆愁。',
+    albumNote: '李宗盛填詞，周華健奠定歌壇國民天王地位的巔峰之作。'
+  },
+  {
+    id: 'insp_04',
+    title: '愛如潮水',
+    artist: '張信哲',
+    artistId: 'jeff-chang',
+    decade: '1990s',
+    year: '1993',
+    category: 'mandarin',
+    theme: 'rock_ufo',
+    themeLabel: '滾石飛碟傳奇',
+    moods: ['nostalgia', 'driving'],
+    quote: '不願別的男人見識你的嫵媚，你該知道這樣會讓我心碎。答應我你從此不在深夜裡排隊。',
+    albumNote: '情歌王子張信哲成名經典，李宗盛量身打造的癡情告白。'
+  },
+  {
+    id: 'insp_05',
+    title: '大約在冬季',
+    artist: '齊秦',
+    artistId: 'chyi-chin',
+    decade: '1980s',
+    year: '1987',
+    category: 'mandarin',
+    theme: 'rock_ufo',
+    themeLabel: '滾石飛碟傳奇',
+    moods: ['nostalgia', 'quiet_afternoon'],
+    quote: '輕輕的我想說一聲，我愛你。這段離情，深深的折磨著我。不是在現在，不是在今天，大約在冬季。',
+    albumNote: '齊秦僅用十五分鐘寫就的曠世情歌，傳唱華人世界數十年。'
+  },
+  {
+    id: 'insp_06',
+    title: '一場遊戲一場夢',
+    artist: '王傑',
+    artistId: 'dave-wang',
+    decade: '1980s',
+    year: '1987',
+    category: 'mandarin',
+    theme: 'rock_ufo',
+    themeLabel: '滾石飛碟傳奇',
+    moods: ['nostalgia', 'driving'],
+    quote: '不要談什麼分離，我不會因為這樣而哭泣。那只是一場遊戲一場夢。',
+    albumNote: '王傑首張專輯主打，轟動全台創下數白金銷量紀錄。'
+  },
+  {
+    id: 'insp_07',
+    title: '酒干倘賣無',
+    artist: '蘇芮',
+    artistId: 'su-rui',
+    decade: '1980s',
+    year: '1983',
+    category: 'mandarin',
+    theme: 'rock_ufo',
+    themeLabel: '滾石飛碟傳奇',
+    moods: ['past_self', 'nostalgia'],
+    quote: '多麼熟悉的聲音，陪我多少年風和雨。從來不需要想起，永遠也不會忘記。',
+    albumNote: '電影《搭錯車》主題曲，黑色旋風蘇芮驚動歌壇的靈魂高音。'
+  },
+  {
+    id: 'insp_08',
+    title: '領悟',
+    artist: '辛曉琪',
+    artistId: 'winnie-hsin',
+    decade: '1990s',
+    year: '1994',
+    category: 'mandarin',
+    theme: 'rock_ufo',
+    themeLabel: '滾石飛碟傳奇',
+    moods: ['nostalgia', 'quiet_afternoon'],
+    quote: '多麼痛的領悟，你曾是我的全部。只是我回首來時路的每一步，都走得好孤獨。',
+    albumNote: '李宗盛傾注心血寫給女人的痛徹心扉之歌，單曲狂銷數十萬張。'
+  },
+
+  // ── 主題二：九十年代天王天后 ──
+  {
+    id: 'insp_09',
+    title: '風繼續吹',
+    artist: '張國榮',
+    artistId: 'leslie-cheung',
+    decade: '1980s',
+    year: '1983',
+    category: 'mandarin',
+    theme: '90s_kings',
+    themeLabel: '九十天王天后',
+    moods: ['nostalgia', 'quiet_afternoon'],
+    quote: '風繼續吹，不忍遠離。心裡極渴望，希望留下伴著你。',
+    albumNote: '張國榮歌唱生涯奠基之作，深情溫存，永留影迷與歌迷心中。'
+  },
+  {
+    id: 'insp_10',
+    title: '當愛已成往事',
+    artist: '張國榮',
+    artistId: 'leslie-cheung',
+    decade: '1990s',
+    year: '1993',
+    category: 'mandarin',
+    theme: '90s_kings',
+    themeLabel: '九十天王天后',
+    moods: ['nostalgia', 'past_self'],
+    quote: '往事不要再提，人生已多風雨。你不曾真的離去，你始終在我心裡。',
+    albumNote: '電影《霸王別姬》主題曲，哀婉絕美，如程蝶衣一生的寫照。'
+  },
+  {
+    id: 'insp_11',
+    title: '女人花',
+    artist: '梅艷芳',
+    artistId: 'anita-mui',
+    decade: '1990s',
+    year: '1997',
+    category: 'mandarin',
+    theme: '90s_kings',
+    themeLabel: '九十天王天后',
+    moods: ['nostalgia', 'quiet_afternoon'],
+    quote: '女人花，搖曳在紅塵中。女人花，隨風輕輕擺動。若是你聞過了花香，濃情莫辜負。',
+    albumNote: '陳耀川作曲、李安修填詞，梅艷芳最膾炙人口的國語經典名篇。'
+  },
+  {
+    id: 'insp_12',
+    title: '親密愛人',
+    artist: '梅艷芳',
+    artistId: 'anita-mui',
+    decade: '1990s',
+    year: '1991',
+    category: 'mandarin',
+    theme: '90s_kings',
+    themeLabel: '九十天王天后',
+    moods: ['good_mood', 'quiet_afternoon'],
+    quote: '今夜還吹著風，想起你好溫柔。有你在我身邊，我不怕黑夜。親密愛人。',
+    albumNote: '小蟲為梅艷芳量身創作，洋溢溫柔浪漫與對幸福的祈願。'
+  },
+  {
+    id: 'insp_13',
+    title: '忘情水',
+    artist: '劉德華',
+    artistId: 'andy-lau',
+    decade: '1990s',
+    year: '1994',
+    category: 'mandarin',
+    theme: '90s_kings',
+    themeLabel: '九十天王天后',
+    moods: ['nostalgia', 'driving'],
+    quote: '給我一杯忘情水，換我一生不傷悲。就算我會喝醉，就算我會心碎，不會看見我流淚。',
+    albumNote: '劉德華生涯巔峰代表作，橫掃亞洲所有華語金曲獎項。'
+  },
+  {
+    id: 'insp_14',
+    title: '至少還有你',
+    artist: '林憶蓮',
+    artistId: 'sandy-lam',
+    decade: '1990s',
+    year: '2000',
+    category: 'mandarin',
+    theme: '90s_kings',
+    themeLabel: '九十天王天后',
+    moods: ['nostalgia', 'past_self'],
+    quote: '如果，全世界我也可以放棄，至少還有你值得我去珍惜。而你在這裡，就是生命的奇蹟。',
+    albumNote: '千禧之交的最強抒情神曲，KTV 點唱榜霸榜數年。'
+  },
+  {
+    id: 'insp_15',
+    title: '為你我受冷風吹',
+    artist: '林憶蓮',
+    artistId: 'sandy-lam',
+    decade: '1990s',
+    year: '1995',
+    category: 'mandarin',
+    theme: '90s_kings',
+    themeLabel: '九十天王天后',
+    moods: ['nostalgia', 'quiet_afternoon'],
+    quote: '為你我受冷風吹，寂寞時候流眼淚。有人問我是與非，說是與非，可是誰又真的關心誰。',
+    albumNote: '李宗盛詞曲極致之作，將都市人的孤寂與執著描摹得入木三分。'
+  },
+  {
+    id: 'insp_16',
+    title: '用心良苦',
+    artist: '張宇',
+    artistId: 'phil-chang',
+    decade: '1990s',
+    year: '1993',
+    category: 'mandarin',
+    theme: '90s_kings',
+    themeLabel: '九十天王天后',
+    moods: ['nostalgia', 'driving'],
+    quote: '你說你想要逃，偏偏注定要落腳。情滅了愛熄了，剩下空心要不要。',
+    albumNote: '張宇獨特沙啞苦情唱腔與十一郎詞作的黃金組合之作。'
+  },
+  {
+    id: 'insp_17',
+    title: '天空',
+    artist: '王菲',
+    artistId: 'faye-wong',
+    decade: '1990s',
+    year: '1994',
+    category: 'mandarin',
+    theme: '90s_kings',
+    themeLabel: '九十天王天后',
+    moods: ['quiet_afternoon', 'driving'],
+    quote: '我的天空為何掛著濕的淚，我的天空為何總在下著雨。放逐自己在黑夜的邊境。',
+    albumNote: '口琴前奏一響，空靈飄渺的嗓音將人帶入無垠的高原藍天。'
+  },
+
+  // ── 主題三：校園民歌與瓊瑤影視金曲 ──
+  {
+    id: 'insp_18',
+    title: '橄欖樹',
+    artist: '齊豫',
+    artistId: 'chyi-yu',
+    decade: '1970s',
+    year: '1979',
+    category: 'mandarin',
+    theme: 'folk_classic',
+    themeLabel: '校園民歌與傳奇',
+    moods: ['nostalgia', 'quiet_afternoon'],
+    quote: '不要問我從哪裡來，我的故鄉在遠方。為什麼流浪，流浪遠方，為了天空飛翔的小鳥。',
+    albumNote: '三毛作詞、李泰祥作曲、齊豫演唱，台灣民歌時代最神聖的藝術瑰寶。'
+  },
+  {
+    id: 'insp_19',
+    title: '三月裡的小雨',
+    artist: '劉文正',
+    artistId: 'steven-liu',
+    decade: '1980s',
+    year: '1981',
+    category: 'mandarin',
+    theme: 'folk_classic',
+    themeLabel: '校園民歌與傳奇',
+    moods: ['good_mood', 'driving'],
+    quote: '三月裡的小雨，淅瀝瀝下個不停。山谷裡的小溪，嘩啦啦流不停。小雨打在我臉上，小溪流進我心底。',
+    albumNote: '永遠的白馬王子劉文正代表作，輕快悠揚，如沐春風。'
+  },
+  {
+    id: 'insp_20',
+    title: '一剪梅',
+    artist: '費玉清',
+    artistId: 'fei-yu-ching',
+    decade: '1980s',
+    year: '1983',
+    category: 'mandarin',
+    theme: 'folk_classic',
+    themeLabel: '校園民歌與傳奇',
+    moods: ['nostalgia', 'quiet_afternoon'],
+    quote: '真情像草原廣闊，層層風雨不能阻隔。總有雲開日出時候，萬丈陽光照耀你我。',
+    albumNote: '小哥費玉清招牌名曲，溫潤無暇的嗓音演繹傲雪寒梅的堅貞。'
+  },
+  {
+    id: 'insp_21',
+    title: '晚安曲',
+    artist: '費玉清',
+    artistId: 'fei-yu-ching',
+    decade: '1970s',
+    year: '1979',
+    category: 'mandarin',
+    theme: 'folk_classic',
+    themeLabel: '校園民歌與傳奇',
+    moods: ['quiet_afternoon', 'nostalgia'],
+    quote: '讓我們互道一聲晚安，送走這匆匆的一天。值得懷念的請你珍藏，應該淡忘的莫再留戀。',
+    albumNote: '全台灣百貨公司與公共場所打烊時的共同回憶，最溫暖的道別曲。'
+  },
+  {
+    id: 'insp_22',
+    title: '我只在乎你',
+    artist: '鄧麗君',
+    artistId: 'teresa-teng',
+    decade: '1980s',
+    year: '1987',
+    category: 'mandarin',
+    theme: 'folk_classic',
+    themeLabel: '校園民歌與傳奇',
+    moods: ['nostalgia', 'past_self'],
+    quote: '如果沒有遇見你，我將會是在哪裡？日子過得怎麼樣，人生是否要珍惜。任時光匆匆流去我只在乎你。',
+    albumNote: '鄧麗君生前最珍惜的代表作之一，深情溫婉，打動億萬人心。'
+  },
+  {
+    id: 'insp_23',
+    title: '流水年華',
+    artist: '鳳飛飛',
+    artistId: 'fong-fei-fei',
+    decade: '1970s',
+    year: '1978',
+    category: 'mandarin',
+    theme: 'folk_classic',
+    themeLabel: '校園民歌與傳奇',
+    moods: ['good_mood', 'housework'],
+    quote: '朦朧的街燈靜靜躺在小雨中，往事又浮現在我心頭。想起那時候，象是一場夢。',
+    albumNote: '節奏輕快浪漫，鳳飛飛將這首東洋改編歌曲唱成街頭巷尾的國民歌曲。'
+  },
+
+  // ── 主題四：西洋 Billboard 告示牌金曲 ──
+  {
+    id: 'insp_24',
+    title: 'Bohemian Rhapsody',
+    artist: 'Queen (皇后合唱團)',
+    artistId: 'queen',
+    decade: '1970s',
+    year: '1975',
+    category: 'western',
+    theme: 'western_billboard',
+    themeLabel: '西洋告示牌金曲',
+    moods: ['driving', 'good_mood'],
+    quote: 'Is this the real life? Is this just fantasy? Caught in a landside, no escape from reality...',
+    albumNote: '搖滾史上的曠世巨作，融合民謠、歌劇與重金屬的六分鐘傳奇。'
+  },
+  {
+    id: 'insp_25',
+    title: 'Dancing Queen',
+    artist: 'ABBA (阿巴合唱團)',
+    artistId: 'abba',
+    decade: '1970s',
+    year: '1976',
+    category: 'western',
+    theme: 'western_billboard',
+    themeLabel: '西洋告示牌金曲',
+    moods: ['good_mood', 'housework'],
+    quote: 'You can dance, you can jive, having the time of your life. See that girl, watch that scene, digging the Dancing Queen.',
+    albumNote: '迪斯可全盛期的世界冠軍金曲，琴鍵一按即帶動全場舞動。'
+  },
+  {
+    id: 'insp_26',
+    title: 'Let It Be',
+    artist: 'The Beatles (披頭四)',
+    artistId: 'the-beatles',
+    decade: '1970s',
+    year: '1970',
+    category: 'western',
+    theme: 'western_billboard',
+    themeLabel: '西洋告示牌金曲',
+    moods: ['quiet_afternoon', 'past_self'],
+    quote: 'When I find myself in times of trouble, Mother Mary comes to me, speaking words of wisdom: Let it be.',
+    albumNote: '保羅・麥卡尼在人生迷惘時所作，平靜而聖潔的心靈撫慰曲。'
+  },
+  {
+    id: 'insp_27',
+    title: 'Careless Whisper',
+    artist: 'George Michael (喬治麥可)',
+    artistId: 'george-michael',
+    decade: '1980s',
+    year: '1984',
+    category: 'western',
+    theme: 'western_billboard',
+    themeLabel: '西洋告示牌金曲',
+    moods: ['nostalgia', 'driving'],
+    quote: "I'm never gonna dance again, guilty feet have got no rhythm. Though it's easy to pretend, I know you're not a fool...",
+    albumNote: '標誌性的薩克斯風前奏，八十年代最性感的深情告白。'
+  },
+  {
+    id: 'insp_28',
+    title: 'Bridge over Troubled Water',
+    artist: 'Simon & Garfunkel',
+    artistId: 'simon-garfunkel',
+    decade: '1970s',
+    year: '1970',
+    category: 'western',
+    theme: 'western_billboard',
+    themeLabel: '西洋告示牌金曲',
+    moods: ['quiet_afternoon', 'past_self'],
+    quote: 'Like a bridge over troubled water, I will lay me down. Like a bridge over troubled water, I will ease your mind.',
+    albumNote: '葛萊美年度最佳歌曲，如禱告般虔誠的純淨歌聲。'
+  },
+  {
+    id: 'insp_29',
+    title: 'Tears in Heaven',
+    artist: 'Eric Clapton (艾力克萊普頓)',
+    artistId: 'eric-clapton',
+    decade: '1990s',
+    year: '1992',
+    category: 'western',
+    theme: 'western_billboard',
+    themeLabel: '西洋告示牌金曲',
+    moods: ['quiet_afternoon', 'nostalgia'],
+    quote: "Would you know my name, if I saw you in heaven? Would it be the same, if I saw you in heaven?",
+    albumNote: '吉他之神紀念夭折愛子的至痛名曲，木吉他伴奏無比催淚。'
+  },
+  {
+    id: 'insp_30',
+    title: 'Livin’ on a Prayer',
+    artist: 'Bon Jovi (邦喬飛)',
+    artistId: 'bon-jovi',
+    decade: '1980s',
+    year: '1986',
+    category: 'western',
+    theme: 'western_billboard',
+    themeLabel: '西洋告示牌金曲',
+    moods: ['driving', 'good_mood'],
+    quote: "Whoa, we're halfway there, whoa, livin' on a prayer! Take my hand, we'll make it, I swear!",
+    albumNote: 'Talkbox 吉他效果器與硬搖滾節奏，唱出年輕人為生活奮鬥的熱血。'
+  }
+];
+
+// 掛載至 window，確保全局相容
 if (typeof window !== 'undefined') {
   window.YOUTH_MUSIC_DATA = {
     MOODS,
     DECADES,
     ARTISTS,
-    SONGS
+    SONGS,
+    INSPIRATION_POOL
   };
 }
 
@@ -2271,11 +3110,13 @@ if (typeof window !== 'undefined') {
  * 青春音樂時光機 - 核心邏輯
  * 
  * 核心功能：
- * 1. 時光機首頁、找歌曲、我的最愛、我的音樂回憶四大分頁切換
- * 2. 1970s / 1980s / 1990s 年代切換與心情選歌
+ * 1. 四大分頁（時光機首頁、找歌曲、我的最愛、我的音樂回憶）
+ * 2. 1970s / 1980s / 1990s 年代穿越與六大心情選歌
  * 3. 歌手入口與即時搜尋功能（無結果時提供外部合法平台搜尋建議）
  * 4. LocalStorage 儲存「我的青春歌單」與「這首歌讓我想到……」人生音樂日記
- * 5. 合法合規：不下載、不儲存、不串流音訊，導向 YouTube / Spotify / Apple Music 官方平台
+ * 5. 【全新】老式收音機隨機調頻 (Radio Tuning) 抽籤功能
+ * 6. 【全新】時光靈感候選庫 (Inspiration Pool) 一鍵收錄，免打字免自己找歌！
+ * 7. 版權合規：不下載、不儲存、不串流音訊，導向 YouTube / Spotify / Apple Music 官方平台
  */
 
 class YouthMusicApp {
@@ -2284,7 +3125,8 @@ class YouthMusicApp {
       MOODS: [],
       DECADES: [],
       ARTISTS: [],
-      SONGS: []
+      SONGS: [],
+      INSPIRATION_POOL: []
     };
 
     this.activeTab = 'time_machine'; // 'time_machine' | 'explore' | 'favorites' | 'memories'
@@ -2293,18 +3135,31 @@ class YouthMusicApp {
     this.selectedMood = null; // null | moodId
     this.selectedArtistId = null; // null | artistId
     this.searchQuery = '';
+    this.activeInspirationTheme = 'all'; // 'all' | 'rock_ufo' | '90s_kings' | 'folk_classic' | 'western_billboard'
 
     // Local Storage 狀態載入
     this.favorites = this.loadFavorites();
     this.memories = this.loadMemories();
+    this.customSongs = this.loadCustomSongs(); // 使用者從靈感庫一鍵收錄的歌曲
 
     // 作用中的彈窗歌曲
     this.activeListenSong = null;
     this.activeMemorySong = null;
+    this.currentTunedSong = null;
 
     this.initElements();
     this.bindEvents();
     this.render();
+  }
+
+  // 取得完整歌庫（內建歌曲 + 使用者從靈感庫收錄的自訂歌曲）
+  getAllSongs() {
+    const map = new Map();
+    // 預設核心歌曲
+    (this.data.SONGS || []).forEach(s => map.set(s.id, s));
+    // 使用者收錄歌曲
+    (this.customSongs || []).forEach(s => map.set(s.id, s));
+    return Array.from(map.values());
   }
 
   // Local Storage 存取
@@ -2361,6 +3216,42 @@ class YouthMusicApp {
     }
   }
 
+  loadCustomSongs() {
+    try {
+      const saved = localStorage.getItem('youth_music_custom_songs');
+      return saved ? JSON.parse(saved) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  saveCustomSongs() {
+    try {
+      localStorage.setItem('youth_music_custom_songs', JSON.stringify(this.customSongs));
+    } catch (e) {
+      console.error('儲存自訂收錄歌曲失敗:', e);
+    }
+  }
+
+  // 靈感庫收錄歌曲切換
+  addSongFromInspiration(song) {
+    if (!this.customSongs.some(s => s.id === song.id)) {
+      this.customSongs.push(song);
+      this.saveCustomSongs();
+      this.showToast(`已收錄《${song.title}》進時光機！✨`);
+      this.render();
+      this.renderInspirationList();
+    }
+  }
+
+  removeSongFromInspiration(songId) {
+    this.customSongs = this.customSongs.filter(s => s.id !== songId);
+    this.saveCustomSongs();
+    this.showToast('已從時光機移除該歌曲');
+    this.render();
+    this.renderInspirationList();
+  }
+
   toggleFavorite(songId) {
     const index = this.favorites.indexOf(songId);
     let added = false;
@@ -2405,6 +3296,8 @@ class YouthMusicApp {
     this.navBtns = document.querySelectorAll('.nav-item');
     this.listenModal = document.getElementById('listenModal');
     this.memoryModal = document.getElementById('memoryModal');
+    this.radioModal = document.getElementById('radioModal');
+    this.inspirationModal = document.getElementById('inspirationModal');
     this.toast = document.getElementById('toast');
     this.favBadge = document.getElementById('favBadge');
     this.memoryBadge = document.getElementById('memoryBadge');
@@ -2413,7 +3306,7 @@ class YouthMusicApp {
   bindEvents() {
     // 底部導覽列切換
     this.navBtns.forEach(btn => {
-      btn.addEventListener('click', (e) => {
+      btn.addEventListener('click', () => {
         const tab = btn.dataset.tab;
         if (tab) {
           this.switchTab(tab);
@@ -2422,21 +3315,15 @@ class YouthMusicApp {
     });
 
     // 彈窗背景點擊關閉
-    if (this.listenModal) {
-      this.listenModal.addEventListener('click', (e) => {
-        if (e.target === this.listenModal || e.target.classList.contains('modal-backdrop')) {
-          this.closeListenModal();
-        }
-      });
-    }
-
-    if (this.memoryModal) {
-      this.memoryModal.addEventListener('click', (e) => {
-        if (e.target === this.memoryModal || e.target.classList.contains('modal-backdrop')) {
-          this.closeMemoryModal();
-        }
-      });
-    }
+    [this.listenModal, this.memoryModal, this.radioModal, this.inspirationModal].forEach(modal => {
+      if (modal) {
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal || e.target.classList.contains('modal-backdrop')) {
+            modal.classList.remove('active');
+          }
+        });
+      }
+    });
 
     // 全螢幕 / 居中視角切換（大螢幕體驗友善）
     const desktopToggle = document.getElementById('desktopViewToggle');
@@ -2530,6 +3417,7 @@ class YouthMusicApp {
   // -------------------------------------------------------------
   renderTimeMachineTab() {
     const filteredSongs = this.getFilteredSongs();
+    const allSongs = this.getAllSongs();
 
     return `
       <div class="page-container fade-in">
@@ -2571,6 +3459,33 @@ class YouthMusicApp {
             只是有些歌很久沒播放了。」
           </p>
         </header>
+
+        <!-- 老式收音機隨機調頻按鈕 -->
+        <div class="radio-tuner-card" id="openRadioCard">
+          <div class="radio-tuner-info">
+            <div class="radio-dial-icon">📻</div>
+            <div>
+              <div class="radio-tuner-title">轉動收音機・隨機穿越</div>
+              <div class="radio-tuner-desc">FM 1970 ~ 1990 調頻重溫被遺忘的旋律</div>
+            </div>
+          </div>
+          <button class="radio-tune-btn">
+            <span>轉台抽籤</span>
+            <span>→</span>
+          </button>
+        </div>
+
+        <!-- 時光靈感庫橫幅 (一鍵收錄免打字) -->
+        <div class="inspiration-banner-card" id="openInspirationCard">
+          <div class="inspiration-banner-left">
+            <span class="inspiration-star-icon">✨</span>
+            <div>
+              <div class="inspiration-banner-title">時光靈感庫・探索更多經典</div>
+              <div class="inspiration-banner-sub">滾石飛碟、九十天王天后、民歌、西洋名曲一鍵收錄</div>
+            </div>
+          </div>
+          <button class="inspiration-open-btn">打開候選庫</button>
+        </div>
 
         <!-- 大型年代選擇區 -->
         <section class="decade-selection-section">
@@ -2643,7 +3558,7 @@ class YouthMusicApp {
               <h3 class="songs-header-title">
                 ${this.getListTitle()}
               </h3>
-              <span class="songs-count-badge">${filteredSongs.length} 首珍貴旋律</span>
+              <span class="songs-count-badge">${filteredSongs.length} / ${allSongs.length} 首珍貴旋律</span>
             </div>
             ${(this.selectedDecade || this.selectedMood || this.selectedCategory !== 'all' || this.searchQuery) ? `
               <button class="clear-filters-btn" data-action="reset-filters">
@@ -2701,6 +3616,18 @@ class YouthMusicApp {
               </button>
             ` : ''}
           </div>
+        </div>
+
+        <!-- 靈感庫入口 -->
+        <div class="inspiration-banner-card" id="openInspirationCardExplore" style="margin-bottom: 24px;">
+          <div class="inspiration-banner-left">
+            <span class="inspiration-star-icon">✨</span>
+            <div>
+              <div class="inspiration-banner-title">時光靈感庫・探索更多經典</div>
+              <div class="inspiration-banner-sub">免自己找歌，按一下即可收錄進您的時光機</div>
+            </div>
+          </div>
+          <button class="inspiration-open-btn">打開候選庫</button>
         </div>
 
         <!-- 歌手分類專區 -->
@@ -2799,7 +3726,8 @@ class YouthMusicApp {
   // 分頁 3：我的青春歌單
   // -------------------------------------------------------------
   renderFavoritesTab() {
-    const favoriteSongs = this.data.SONGS.filter(s => this.favorites.includes(s.id));
+    const allSongs = this.getAllSongs();
+    const favoriteSongs = allSongs.filter(s => this.favorites.includes(s.id));
     
     // 歌單內分類篩選
     let displaySongs = favoriteSongs;
@@ -2874,8 +3802,9 @@ class YouthMusicApp {
   // 分頁 4：我的音樂回憶日記
   // -------------------------------------------------------------
   renderMemoriesTab() {
+    const allSongs = this.getAllSongs();
     const memoryKeys = Object.keys(this.memories);
-    const songsWithMemory = this.data.SONGS.filter(s => memoryKeys.includes(s.id));
+    const songsWithMemory = allSongs.filter(s => memoryKeys.includes(s.id));
 
     return `
       <div class="page-container fade-in">
@@ -3064,7 +3993,7 @@ class YouthMusicApp {
   // 歌曲篩選邏輯
   // -------------------------------------------------------------
   getFilteredSongs() {
-    let result = [...this.data.SONGS];
+    let result = this.getAllSongs();
 
     // 搜尋字串過濾（歌手、歌名、年代）
     if (this.searchQuery && this.searchQuery.trim()) {
@@ -3150,6 +4079,24 @@ class YouthMusicApp {
         this.render();
       });
     }
+
+    // 老式收音機調頻卡片點擊
+    const openRadioCard = document.getElementById('openRadioCard');
+    if (openRadioCard) {
+      openRadioCard.addEventListener('click', () => {
+        this.openRadioModal();
+      });
+    }
+
+    // 時光靈感庫橫幅點擊
+    const openInspCards = [document.getElementById('openInspirationCard'), document.getElementById('openInspirationCardExplore')];
+    openInspCards.forEach(card => {
+      if (card) {
+        card.addEventListener('click', () => {
+          this.openInspirationModal();
+        });
+      }
+    });
 
     // 年代卡片點擊
     document.querySelectorAll('.decade-card').forEach(btn => {
@@ -3250,7 +4197,8 @@ class YouthMusicApp {
         e.stopPropagation();
         const id = btn.dataset.songId;
         if (id) {
-          const song = this.data.SONGS.find(s => s.id === id);
+          const all = this.getAllSongs();
+          const song = all.find(s => s.id === id);
           if (song) this.openListenModal(song);
         }
       });
@@ -3262,9 +4210,236 @@ class YouthMusicApp {
         e.stopPropagation();
         const id = btn.dataset.songId;
         if (id) {
-          const song = this.data.SONGS.find(s => s.id === id);
+          const all = this.getAllSongs();
+          const song = all.find(s => s.id === id);
           if (song) this.openMemoryModal(song);
         }
+      });
+    });
+  }
+
+  // -------------------------------------------------------------
+  // 老式收音機隨機調頻彈窗
+  // -------------------------------------------------------------
+  openRadioModal() {
+    if (!this.radioModal) return;
+    this.tuneRandomSong();
+    this.radioModal.classList.add('active');
+  }
+
+  tuneRandomSong() {
+    const all = this.getAllSongs();
+    if (!all.length) return;
+    const randomIndex = Math.floor(Math.random() * all.length);
+    const song = all[randomIndex];
+    this.currentTunedSong = song;
+
+    const modalContent = document.getElementById('radioModalContent');
+    if (!modalContent) return;
+
+    // 隨機 FM 頻率 (88.0 ~ 107.5)
+    const randomFreq = (88.0 + Math.random() * 19.5).toFixed(1);
+    const needlePercent = Math.floor(15 + Math.random() * 70);
+
+    const isFav = this.favorites.includes(song.id);
+
+    modalContent.innerHTML = `
+      <div class="modal-header">
+        <div class="modal-badge">時光收音機調頻中</div>
+        <h3 class="modal-title">📻 穿越時空，調頻至 ${randomFreq} MHz</h3>
+        <button class="modal-close-x" id="closeRadioModalX">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- 復古調頻刻度盤 -->
+        <div class="radio-display-dial">
+          <div class="radio-freq-scale">
+            <span>FM 88</span>
+            <span>94</span>
+            <span>100</span>
+            <span>106</span>
+            <span>108 MHz</span>
+          </div>
+          <div class="radio-needle-track">
+            <div class="radio-needle tuning" style="left: ${needlePercent}%;"></div>
+          </div>
+          <div class="radio-station-text">✦ 接收到來自 ${song.year} 年 ${song.decade} 的時光電波 ✦</div>
+        </div>
+
+        <!-- 調頻接收到的歌曲卡片 -->
+        <div class="song-card" style="box-shadow: none; border: 1px solid var(--gold-border);">
+          <div class="song-card-main">
+            <div class="vinyl-thumbnail">
+              <div class="vinyl-outer-groove">
+                <div class="vinyl-inner-label">
+                  <span class="vinyl-mini-year">${song.year}</span>
+                </div>
+              </div>
+              <div class="vinyl-center-hole"></div>
+            </div>
+
+            <div class="song-info-wrapper">
+              <div class="song-header-line">
+                <span class="song-decade-pill">${song.decade}</span>
+                <span class="song-category-pill">${song.category === 'mandarin' ? '華語' : '西洋'}</span>
+              </div>
+              <h4 class="song-title">${song.title}</h4>
+              <div class="song-artist-line">
+                <span class="song-artist-name">${song.artist}</span>
+                <span class="song-year-dot">·</span>
+                <span class="song-release-year">${song.year}</span>
+              </div>
+              <p class="song-poetic-quote">「${song.quote}」</p>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 8px; margin-top: 18px;">
+          <button class="primary-btn" id="radioListenBtn" style="flex: 1;">
+            🎧 前往合法平台聽歌
+          </button>
+          <button class="secondary-btn" id="radioFavBtn">
+            ${isFav ? '❤️ 已在最愛' : '❤️ 收藏'}
+          </button>
+        </div>
+
+        <div style="text-align: center; margin-top: 14px;">
+          <button class="clear-filters-link" id="radioRetuneBtn" style="font-size: 0.9rem; cursor: pointer;">
+            🔄 再轉一台（換首時光金曲）
+          </button>
+        </div>
+      </div>
+    `;
+
+    document.getElementById('closeRadioModalX').addEventListener('click', () => {
+      this.radioModal.classList.remove('active');
+    });
+
+    document.getElementById('radioRetuneBtn').addEventListener('click', () => {
+      this.tuneRandomSong();
+    });
+
+    document.getElementById('radioListenBtn').addEventListener('click', () => {
+      this.radioModal.classList.remove('active');
+      this.openListenModal(this.currentTunedSong);
+    });
+
+    document.getElementById('radioFavBtn').addEventListener('click', () => {
+      this.toggleFavorite(this.currentTunedSong.id);
+      this.tuneRandomSong();
+    });
+  }
+
+  // -------------------------------------------------------------
+  // 時光靈感庫彈窗 (一鍵收錄，完全免打字)
+  // -------------------------------------------------------------
+  openInspirationModal() {
+    if (!this.inspirationModal) return;
+    this.renderInspirationList();
+    this.inspirationModal.classList.add('active');
+  }
+
+  renderInspirationList() {
+    const modalContent = document.getElementById('inspirationModalContent');
+    if (!modalContent) return;
+
+    const pool = this.data.INSPIRATION_POOL || [];
+    const allSongs = this.getAllSongs();
+    const existingIds = new Set(allSongs.map(s => s.id));
+
+    let displayList = pool;
+    if (this.activeInspirationTheme !== 'all') {
+      displayList = pool.filter(s => s.theme === this.activeInspirationTheme);
+    }
+
+    modalContent.innerHTML = `
+      <div class="modal-header">
+        <div class="modal-badge">經典靈感候選庫</div>
+        <h3 class="modal-title">✨ 時光靈感庫・一鍵收錄</h3>
+        <p class="modal-artist">點擊「＋收進歌庫」，一秒收納進您的專屬時光機</p>
+        <button class="modal-close-x" id="closeInspModalX">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- 主題標籤切換 -->
+        <div class="inspiration-theme-pills">
+          <button class="theme-pill-btn ${this.activeInspirationTheme === 'all' ? 'active' : ''}" data-theme="all">
+            全部靈感 (${pool.length})
+          </button>
+          <button class="theme-pill-btn ${this.activeInspirationTheme === 'rock_ufo' ? 'active' : ''}" data-theme="rock_ufo">
+            💿 滾石飛碟傳奇
+          </button>
+          <button class="theme-pill-btn ${this.activeInspirationTheme === '90s_kings' ? 'active' : ''}" data-theme="90s_kings">
+            🎤 九十天王天后
+          </button>
+          <button class="theme-pill-btn ${this.activeInspirationTheme === 'folk_classic' ? 'active' : ''}" data-theme="folk_classic">
+            📻 校園民歌傳奇
+          </button>
+          <button class="theme-pill-btn ${this.activeInspirationTheme === 'western_billboard' ? 'active' : ''}" data-theme="western_billboard">
+            🌟 西洋告示牌名曲
+          </button>
+        </div>
+
+        <!-- 歌曲列表 -->
+        <div class="inspiration-list-scroll">
+          ${displayList.map(song => {
+            const isAdded = existingIds.has(song.id);
+            return `
+              <div class="inspiration-song-row">
+                <div class="inspiration-song-info">
+                  <div class="inspiration-song-title">${song.title}</div>
+                  <div class="inspiration-song-meta">
+                    <span>${song.artist}</span> · <span>${song.year}</span> · <span>${song.themeLabel}</span>
+                  </div>
+                  <div class="inspiration-quote-snippet">「${song.quote}」</div>
+                </div>
+
+                <div>
+                  ${isAdded ? `
+                    <button class="inspiration-add-btn added" data-remove-insp="${song.id}" title="點擊可移除">
+                      ✓ 已在時光機
+                    </button>
+                  ` : `
+                    <button class="inspiration-add-btn" data-add-insp="${song.id}">
+                      ＋ 收進歌庫
+                    </button>
+                  `}
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    `;
+
+    document.getElementById('closeInspModalX').addEventListener('click', () => {
+      this.inspirationModal.classList.remove('active');
+    });
+
+    // 切換主題標籤
+    modalContent.querySelectorAll('[data-theme]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        this.activeInspirationTheme = btn.dataset.theme;
+        this.renderInspirationList();
+      });
+    });
+
+    // 點擊收錄
+    modalContent.querySelectorAll('[data-add-insp]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.addInsp;
+        const target = pool.find(s => s.id === id);
+        if (target) {
+          this.addSongFromInspiration(target);
+        }
+      });
+    });
+
+    // 點擊移除已收錄歌曲
+    modalContent.querySelectorAll('[data-remove-insp]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.removeInsp;
+        this.removeSongFromInspiration(id);
       });
     });
   }
